@@ -12,8 +12,6 @@ I haven't yet found one that works for me... next best solution? create my own.
 
 ### Solution
 
----
-
 The Income and Expense Tracker API is here to make managing money easier for couples. <br>
 It simplifies how you track your finances, allowing you to effortlessly record income and expenses. <br>
 It provides a user-friendly solution for tracking financial transactions, focusing on recording income and expenses while supporting the sharing of transaction accounts between partners. <br>
@@ -41,5 +39,7 @@ Users can categorise transactions to better organise their financial data. This 
 With multiple users able to interact with the same account in real-time, the API ensures all financial data is up-to-date and accessible to both partners. This eliminates delays and ensures everyone is on the same page about their financial status.
 
 The Income and Expense Tracker API addresses the common challenges couples face in managing their joint finances. By focusing on simplicity, shared account functionality, user roles, categorisation, and real-time collaboration, the API provides a solution for financial organisation, and cooperation. This approach makes it easier for couples to manage their income and expenses, reducing the financial misunderstandings.
+
+---
 
 ## R2: Task Allocation and Tracking in My Project
