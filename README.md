@@ -12,6 +12,8 @@ I haven't yet found one that works for me... next best solution? create my own.
 
 ### Solution
 
+---
+
 The Income and Expense Tracker API is here to make managing money easier for couples. <br>
 It simplifies how you track your finances, allowing you to effortlessly record income and expenses. <br>
 It provides a user-friendly solution for tracking financial transactions, focusing on recording income and expenses while supporting the sharing of transaction accounts between partners. <br>
