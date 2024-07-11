@@ -40,6 +40,42 @@ With multiple users able to interact with the same account in real-time, the API
 
 The Income and Expense Tracker API addresses the common challenges couples face in managing their joint finances. By focusing on simplicity, shared account functionality, user roles, categorisation, and real-time collaboration, the API provides a solution for financial organisation, and cooperation. This approach makes it easier for couples to manage their income and expenses, reducing the financial misunderstandings.
 
----
-
 ## R2: Task Allocation and Tracking in My Project
+
+To ensure thorough task management and progress tracking, I use Trello. <br>
+Trello allows me to organise tasks visually and track their status through various stages of completion.
+
+1. <b>Task Allocation</b>
+
+   - <b>Task Creation:</b> I create tasks as individual Trello cards, each representing a specific task that needs completion.
+   - <b>Details and Deadlines:</b> Each card includes a detailed description, relevant attachments and checklists. This keeps me organised and ensures I have all necessary information to complete the task.
+
+2. <b>Tracking Progress</b>
+
+   - <b>Backlog:</b> This list contains all tasks that need to be done eventually but are not yet prioritised. It's future tasks that I can move to "To Do" when ready to start working on them.
+
+   - <b>To Do:</b> This list includes all tasks that need starting. New tasks are added here, giving a clear view of what's next.
+
+   - <b>Doing:</b> Once I start working on a task, I move its card from "To Do" to "Doing." This helps me focus on current tasks and manage my workflow efficiently.
+
+   - <b>Done:</b> Completed tasks go into the "Done" list, providing a sense of accomplishment and a clear record of finished work.
+
+   - <b>Stuck:</b> If a task encounters an issue or can't proceed, it goes to the "Stuck" list. This helps me quickly spot and resolve bottlenecks.
+
+3. <b>Communication and Updates</b>
+
+   - <b>Notes:</b> I add notes to each card for updates, recording important information, or documenting task-related issues.
+
+   - <b>Notifications:</b> Trello notifies me about approaching deadlines and any updates or changes to cards, helping me stay informed and manage time effectively.
+
+4. <b>Review</b>
+
+   - <b>Regular Review:</b> I regularly review task statuses and project progress to stay on track and adjust my workflow as needed.
+
+   - <b>Board Review:</b> Periodically, I review the Trello board to ensure tasks move smoothly. This early identification of delays or issues allows prompt resolution.
+
+<br>
+Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2LJ)
+<p align="center">
+    <img src="docs/screenshots/planning/planning_stage.JPG"/>
+</p>
