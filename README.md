@@ -40,7 +40,7 @@ With multiple users able to interact with the same account in real-time, the API
 
 The Income and Expense Tracker API addresses the common challenges couples face in managing their joint finances. By focusing on simplicity, shared account functionality, user roles, categorisation, and real-time collaboration, the API provides a solution for financial organisation, and cooperation. This approach makes it easier for couples to manage their income and expenses, reducing the financial misunderstandings.
 
-## R2: Task Allocation and Tracking in My Project
+## R2: Task Allocation and Tracking
 
 To ensure thorough task management and progress tracking, I use Trello. <br>
 Trello allows me to organise tasks visually and track their status through various stages of completion.
@@ -75,7 +75,9 @@ Trello allows me to organise tasks visually and track their status through vario
    - <b>Board Review:</b> Periodically, I review the Trello board to ensure tasks move smoothly. This early identification of delays or issues allows prompt resolution.
 
 <br>
+
 Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2LJ)
+
 <p align="center">
     <img src="docs/screenshots/planning/planning_stage.JPG"/>
 </p>
