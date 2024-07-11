@@ -6,7 +6,6 @@ Managing personal and shared finances can be challenging, especially for couples
 Many existing financial management tools offer comprehensive budget planning features, but they often fall short in providing a simple and efficient way to track financial transactions among multiple users. <br>
 This can lead to difficulties in maintaining shared finances, resulting in misunderstandings or conflicts over financial matters.
 
-<br>
 Personally, I've tried budgeting apps, but nothing suited what I needed, leaving my wife and me to compare expenses at the end of the week. This left holes in our budget. <br>
 I've spent many hours on the internet in search of an expense tracker that can be shared between couples so that no expense is left untracked. <br><br>
 I haven't yet found one that works for me... next best solution? create my own.
@@ -39,5 +38,4 @@ Users can categorise transactions to better organise their financial data. This 
 
 With multiple users able to interact with the same account in real-time, the API ensures all financial data is up-to-date and accessible to both partners. This eliminates delays and ensures everyone is on the same page about their financial status.
 
-<br>
 The Income and Expense Tracker API addresses the common challenges couples face in managing their joint finances. By focusing on simplicity, shared account functionality, user roles, categorisation, and real-time collaboration, the API provides a solution for financial organisation, and cooperation. This approach makes it easier for couples to manage their income and expenses, reducing the financial misunderstandings.
