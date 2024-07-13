@@ -78,6 +78,77 @@ Trello allows me to organise tasks visually and track their status through vario
 
 Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2LJ)
 
+<details>
+   <summary>Trello Planning: Screenshots</summary>
 <p align="center">
-    <img src="docs/screenshots/planning/planning_stage.JPG"/>
+    <img src="docs/screenshots/planning/planning_stage_01.JPG"/>
+    <img src="docs/screenshots/planning/planning_stage_02.JPG"/>
 </p>
+</details>
+
+## R6: ERD Design
+
+### User
+
+Attributes: `user_id`, `user_name`, `user_email`, `password_hash`, `created_at` <br>
+Primary Key: `user_id`
+
+#### Relationships <br>
+
+- Each user can have multiple UserAccount associations (one-to-many relationship).
+- Each user can have multiple Category entries (one-to-many relationship).
+- Each user can have multiple Transaction entries (one-to-many relationship).
+
+### Account <br>
+
+Attributes: `account_id`, `account_name`, `account_type`, `created_at` <br>
+Primary Key: `account_id`
+
+#### Relationships <br>
+
+- Each account can have multiple UserAccount associations (one-to-many relationship).
+- Each account can have multiple Transaction entries (one-to-many relationship).
+
+### UserAccount <br>
+
+Attributes: `user_account_id`, `role`, `user_id`, `account_id`, `created_at` <br>
+Primary Key: `user_account_id`
+
+#### Relationships <br>
+
+- user_id is a foreign key referring to User.
+- account_id is a foreign key referring to Account.
+- This table creates a many-to-many relationship between User and Account with additional attributes like role.
+
+### Category <br>
+
+Attributes: `category_id`, `category_name`, `created_at`, `user_id` <br>
+Primary Key: `category_id`
+
+#### Relationships
+
+- Each category belongs to one user.
+  - user_id is a foreign key referring to User.
+
+### Transaction <br>
+
+Attributes: `transaction_id`, `transaction_type`, `amount`, `date`, `description`, `created_at`, `account_id`, `user_id` <br>
+Primary Key: `transaction_id`
+
+#### Relationships
+
+- Each transaction belongs to one user.
+  - user_id is a foreign key referring to User.
+- Each transaction belongs to one account.
+  - account_id is a foreign key referring to Account.
+
+### TransactionCategory
+
+Attributes: `id`, `transaction_id`, `category_id`, `created_at` <br>
+Primary Key: `id`.
+
+#### Relationships
+
+- transaction_id is a foreign key referring to Transaction.
+- category_id is a foreign key referring to Category.
+- This table creates a many-to-many relationship between Transaction and Category. <br>
