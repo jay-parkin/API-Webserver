@@ -120,16 +120,6 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 - account_id is a foreign key referring to Account.
 - This table creates a many-to-many relationship between User and Account with additional attributes like role.
 
-### Category <br>
-
-<b>Attributes:</b> `category_id`, `category_name`, `created_at`, `user_id` <br>
-<b>Primary Key:</b> `category_id`
-
-#### Relationships
-
-- Each category belongs to one user.
-  - user_id is a foreign key referring to User.
-
 ### Transaction <br>
 
 <b>Attributes:</b> `transaction_id`, `transaction_type`, `amount`, `date`, `description`, `created_at`, `account_id`, `user_id` <br>
@@ -141,6 +131,16 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
   - user_id is a foreign key referring to User.
 - Each transaction belongs to one account.
   - account_id is a foreign key referring to Account.
+
+### Category <br>
+
+<b>Attributes:</b> `category_id`, `category_name`, `created_at`, `user_id` <br>
+<b>Primary Key:</b> `category_id`
+
+#### Relationships
+
+- Each category belongs to one user.
+  - user_id is a foreign key referring to User.
 
 ### TransactionCategory
 
