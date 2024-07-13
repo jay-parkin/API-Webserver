@@ -90,8 +90,8 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 
 ### User
 
-Attributes: `user_id`, `user_name`, `user_email`, `password_hash`, `created_at` <br>
-Primary Key: `user_id`
+<b>Attributes:</b> `user_id`, `user_name`, `user_email`, `password_hash`, `created_at` <br>
+<b>Primary Key:</b> `user_id`
 
 #### Relationships <br>
 
@@ -101,8 +101,8 @@ Primary Key: `user_id`
 
 ### Account <br>
 
-Attributes: `account_id`, `account_name`, `account_type`, `created_at` <br>
-Primary Key: `account_id`
+<b>Attributes:</b> `account_id`, `account_name`, `account_type`, `created_at` <br>
+<b>Primary Key:</b> `account_id`
 
 #### Relationships <br>
 
@@ -111,8 +111,8 @@ Primary Key: `account_id`
 
 ### UserAccount <br>
 
-Attributes: `user_account_id`, `role`, `user_id`, `account_id`, `created_at` <br>
-Primary Key: `user_account_id`
+<b>Attributes:</b> `user_account_id`, `role`, `user_id`, `account_id`, `created_at` <br>
+<b>Primary Key:</b> `user_account_id`
 
 #### Relationships <br>
 
@@ -122,8 +122,8 @@ Primary Key: `user_account_id`
 
 ### Category <br>
 
-Attributes: `category_id`, `category_name`, `created_at`, `user_id` <br>
-Primary Key: `category_id`
+<b>Attributes:</b> `category_id`, `category_name`, `created_at`, `user_id` <br>
+<b>Primary Key:</b> `category_id`
 
 #### Relationships
 
@@ -132,8 +132,8 @@ Primary Key: `category_id`
 
 ### Transaction <br>
 
-Attributes: `transaction_id`, `transaction_type`, `amount`, `date`, `description`, `created_at`, `account_id`, `user_id` <br>
-Primary Key: `transaction_id`
+<b>Attributes:</b> `transaction_id`, `transaction_type`, `amount`, `date`, `description`, `created_at`, `account_id`, `user_id` <br>
+<b>Primary Key:</b> `transaction_id`
 
 #### Relationships
 
@@ -144,8 +144,8 @@ Primary Key: `transaction_id`
 
 ### TransactionCategory
 
-Attributes: `id`, `transaction_id`, `category_id`, `created_at` <br>
-Primary Key: `id`.
+<b>Attributes:</b> `id`, `transaction_id`, `category_id`, `created_at` <br>
+<b>Primary Key:</b> `id`.
 
 #### Relationships
 
