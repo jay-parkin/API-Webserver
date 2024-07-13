@@ -81,8 +81,8 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 <details>
    <summary>Trello Planning: Screenshots</summary>
 <p align="center">
-    <img src="docs/screenshots/planning/planning_stage_01.JPG"/>
-    <img src="docs/screenshots/planning/planning_stage_02.JPG"/>
+    <img src="docs/planning/screenshots/planning_stage_01.JPG">
+    <img src="docs/planning/screenshots/planning_stage_02.JPG">
 </p>
 </details>
 
@@ -152,3 +152,10 @@ Primary Key: `id`.
 - transaction_id is a foreign key referring to Transaction.
 - category_id is a foreign key referring to Category.
 - This table creates a many-to-many relationship between Transaction and Category. <br>
+
+<details>
+   <summary>Entity Relationship Diagram: Image</summary>
+<p align="center">
+   <img src="docs/planning/erd/ERD.jpg">
+</p>
+</details>
