@@ -1,7 +1,6 @@
 from init import db, ma
-from marshmallow import fields, validates
+from marshmallow import fields
 from marshmallow.validate import Length, And, Regexp, OneOf
-from marshmallow.exceptions import ValidationError
 
 VALID_TYPES = ("Regular Savings", "Personal Checking", "Business Checking", "Joint Account", 
                "Investment", "Retirement", "Credit", "Emergency Fund", "Health Savings", 
@@ -20,13 +19,15 @@ class Account(db.Model):
     type = db.Column(db.String, nullable=False)
     created_at = db.Column(db.Date)
 
-    transactions = db.relationship("Transaction", back_populates="account", cascade="all, delete")
+    group = db.relationship("Group", back_populates="account")
+    transaction = db.relationship("Transaction", back_populates="account")
 
 class AccountSchema(ma.Schema):
 
     # a list of nested fields
-    transactions = fields.List(fields.Nested("TransactionSchema", exclude=["account"]))
-
+    group = fields.List(fields.Nested("GroupSchema", exclude=["account"]))
+    transaction = fields.List(fields.Nested("TransactionSchema", exclude=["account"]))
+    
     # Uses marshmallow to create some validations
     name = fields.String(required = True, validate = And(
         Length(min = 2, error = "Title must be at least 2 characters long"),
@@ -36,7 +37,7 @@ class AccountSchema(ma.Schema):
     type = fields.String(validate=OneOf(VALID_TYPES))
 
     class Meta:
-        fields = ("id", "name", "type", "created_at", "transactions")
+        fields = ("id", "name", "type", "created_at", "group", "transaction")
 
 # to handle a single user object
 account_schema = AccountSchema()

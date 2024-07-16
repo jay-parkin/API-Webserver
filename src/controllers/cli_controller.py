@@ -6,6 +6,7 @@ from init import db, bcrypt
 from models.user import User
 from models.account import Account
 from models.transaction import Transaction
+from models.group import Group
 
 db_commands = Blueprint("db", __name__)
 
@@ -37,6 +38,18 @@ def seed_tables():
         User(
             name = "User 1",
             email = "user1@email.com",
+            password_hash = bcrypt.generate_password_hash("123456AA").decode("utf-8"),
+            created_at = date.today()
+        ),
+        User(
+            name = "User 2",
+            email = "user2@email.com",
+            password_hash = bcrypt.generate_password_hash("123456AA").decode("utf-8"),
+            created_at = date.today()
+        ),
+        User(
+            name = "User 3",
+            email = "user3@email.com",
             password_hash = bcrypt.generate_password_hash("123456AA").decode("utf-8"),
             created_at = date.today()
         )
@@ -71,6 +84,32 @@ def seed_tables():
     ]
 
     db.session.add_all(accounts)
+
+    groups = [
+        Group(
+            role = "Admin",
+            user = users[0],
+            account = accounts[1],
+            is_admin = True
+        ),
+        Group(
+            role = "Viewer",
+            user = users[1],
+            account = accounts[1]
+        ),
+        Group(
+            role = "Contributor",
+            user = users[3],
+            account = accounts[1]
+        ),
+        Group(
+            role = "Viewer",
+            user = users[2],
+            account = accounts[2]
+        )
+    ]
+
+    db.session.add_all(groups)
 
     transactions = [
         Transaction(

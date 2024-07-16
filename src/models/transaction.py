@@ -18,14 +18,14 @@ class Transaction(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"), nullable=False)
     
-    user = db.relationship("User", back_populates = "transactions")
-    account = db.relationship("Account", back_populates = "transactions")
+    user = db.relationship("User", back_populates = "transaction")
+    account = db.relationship("Account", back_populates = "transaction")
 
 class TransactionSchema(ma.Schema):
 
     # a list of nested fields
     user = fields.Nested("UserSchema", only=["name", "email"])
-    account = fields.Nested("AccountSchema", exclude=["accounts"])
+    account = fields.Nested("AccountSchema", exclude=["transaction"])
 
     # Uses marshmallow to create some validations
     type = fields.String(validate=OneOf(VALID_TYPES))
