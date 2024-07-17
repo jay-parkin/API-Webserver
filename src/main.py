@@ -37,7 +37,7 @@ def create_app(): # create the flask within a def
     from controllers.account_controller import account_bp
     app.register_blueprint(account_bp)
 
-    from controllers.group_controller import group_bp
-    app.register_blueprint(group_bp)
+    from controllers.user_account_controller import user_account_bp
+    app.register_blueprint(user_account_bp)
 
     return app

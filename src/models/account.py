@@ -19,13 +19,13 @@ class Account(db.Model):
     type = db.Column(db.String, nullable=False)
     created_at = db.Column(db.Date)
 
-    group = db.relationship("Group", back_populates="account")
+    user_account = db.relationship("UserAccount", back_populates="account")
     transaction = db.relationship("Transaction", back_populates="account")
 
 class AccountSchema(ma.Schema):
 
     # a list of nested fields
-    group = fields.List(fields.Nested("GroupSchema", exclude=["account"]))
+    user_account = fields.List(fields.Nested("UserAccountSchema", exclude=["account"]))
     transaction = fields.List(fields.Nested("TransactionSchema", exclude=["account"]))
     
     # Uses marshmallow to create some validations
@@ -37,7 +37,7 @@ class AccountSchema(ma.Schema):
     type = fields.String(validate=OneOf(VALID_TYPES))
 
     class Meta:
-        fields = ("id", "name", "type", "created_at", "group", "transaction")
+        fields = ("id", "name", "type", "created_at", "user_account", "transaction")
 
 # to handle a single user object
 account_schema = AccountSchema()

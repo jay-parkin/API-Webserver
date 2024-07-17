@@ -16,13 +16,13 @@ class User(db.Model):
     created_at = db.Column(db.Date)
     
     # Foreign relation
-    group = db.relationship("Group", back_populates = "user")
+    user_account = db.relationship("UserAccount", back_populates = "user")
     transaction = db.relationship("Transaction", back_populates = "user")
 
 class UserSchema(ma.Schema):
 
     # a list of nested fields
-    group = fields.List(fields.Nested("GroupSchema", exclude=["user"]))
+    user_account = fields.List(fields.Nested("UserAccountSchema", exclude=["user"]))
     transaction = fields.List(fields.Nested("TransactionSchema", exclude=["user"]))
 
     # a list of required fields

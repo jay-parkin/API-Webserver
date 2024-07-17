@@ -4,9 +4,9 @@ from marshmallow.validate import OneOf
 
 VALID_TYPES = ("Admin", "Contributor", "Viewer")
 
-class Group(db.Model):
+class UserAccount(db.Model):
     # define the table name
-    __tablename__ = "groups"
+    __tablename__ = "user_accounts"
 
     # defin the primary key
     id = db.Column(db.Integer, primary_key=True)
@@ -19,13 +19,13 @@ class Group(db.Model):
     user_id= db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"), nullable=False)
 
-    user = db.relationship("User", back_populates = "group")
-    account = db.relationship("Account", back_populates = "group")
+    user = db.relationship("User", back_populates = "user_account")
+    account = db.relationship("Account", back_populates = "user_account")
 
-class GroupSchema(ma.Schema):
+class UserAccountSchema(ma.Schema):
     # a list nested fields
     user = fields.Nested("UserSchema", only=["name", "email"])
-    account = fields.Nested("AccountSchema", exclude=["group"])
+    account = fields.Nested("AccountSchema", exclude=["user_account"])
 
     # Uses marshmallow to create some validations
     role = fields.String(validate=OneOf(VALID_TYPES))
@@ -34,7 +34,7 @@ class GroupSchema(ma.Schema):
         fields = ("id", "role", "is_admin", "user", "account")
 
 # to handle a single user object
-group_schema = GroupSchema()
+user_account_schema = UserAccountSchema()
 
 # to handle a list of user objects
-groups_schema = GroupSchema(many=True)
+user_accounts_schema = UserAccountSchema(many=True)

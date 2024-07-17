@@ -6,7 +6,7 @@ from init import db, bcrypt
 from models.user import User
 from models.account import Account
 from models.transaction import Transaction
-from models.group import Group
+from models.user_account import UserAccount
 
 db_commands = Blueprint("db", __name__)
 
@@ -85,31 +85,26 @@ def seed_tables():
 
     db.session.add_all(accounts)
 
-    groups = [
-        Group(
+    user_accounts = [
+        UserAccount(
             role = "Admin",
             user = users[0],
             account = accounts[1],
             is_admin = True
         ),
-        Group(
+        UserAccount(
             role = "Viewer",
             user = users[1],
             account = accounts[1]
         ),
-        Group(
+        UserAccount(
             role = "Contributor",
             user = users[3],
             account = accounts[1]
         ),
-        Group(
-            role = "Viewer",
-            user = users[2],
-            account = accounts[2]
-        )
     ]
 
-    db.session.add_all(groups)
+    db.session.add_all(user_accounts)
 
     transactions = [
         Transaction(
