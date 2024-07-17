@@ -19,8 +19,8 @@ class Account(db.Model):
     type = db.Column(db.String, nullable=False)
     created_at = db.Column(db.Date)
 
-    user_account = db.relationship("UserAccount", back_populates="account")
-    transaction = db.relationship("Transaction", back_populates="account")
+    user_account = db.relationship("UserAccount", cascade="all, delete-orphan", back_populates="account")
+    transaction = db.relationship("Transaction", cascade="all, delete-orphan", back_populates="account")
 
 class AccountSchema(ma.Schema):
 

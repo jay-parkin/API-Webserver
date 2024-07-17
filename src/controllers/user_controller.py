@@ -86,7 +86,7 @@ def update_user():
     # if user exist
     if user:
         # update the fields
-        user.name = body_data.get("name") or user.name
+        user.name = body_data.get("name", user.name)
         
         if password:
             user.password_hash = bcrypt.generate_password_hash(password).decode("utf-8")

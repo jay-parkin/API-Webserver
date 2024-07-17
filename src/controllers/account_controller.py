@@ -4,6 +4,9 @@ from flask import Blueprint, request
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 from models.account import Account, accounts_schema, account_schema
+from models.user_account import UserAccount
+from models.user import User
+
 from init import bcrypt, db
 
 account_bp = Blueprint("account", __name__, url_prefix="/accounts")
@@ -18,33 +21,155 @@ def get_all_accounts():
     return accounts_schema.dump(accounts)
 
 # # Allow user to create a new account
-# @account_bp.route("/create", methods=["POST"])
-# @jwt_required()
-# def create_account():
-#     # get the data from the body of the request
-#     body_data = account_schema.load(request.get_json())
+@account_bp.route("/create", methods=["POST"])
+@jwt_required()
+def create_account():
+    # Get the current user ID from the JWT token
+    current_user_id = get_jwt_identity()
 
-#     #create a new card model instance
-#     card = Card(
-#         title = body_data.get("title"),
-#         description = body_data.get("description"),
-#         date = date.today(),
-#         status = body_data.get("status"),
-#         priority = body_data.get("priority"),
-#         user_id = get_jwt_identity() # pull token information about the user
-#     )
+    # get the data from the body of the request
+    body_data = account_schema.load(request.get_json())
 
-#     # Create a new instance of an account
-#     account = Account(
-#         name = body_data.get("name"),
-#         type = body_data("type"),
-#         created_at = date.today()
-#         # needs the userAccount
-#     )
+    # Create a new instance of an account
+    account = Account(
+        name = body_data.get("name"),
+        type = body_data.get("type"),
+        created_at = date.today()
+    )
 
-#     #add and commit to DB
-#     db.session.add(card)
-#     db.session.commit()
+    # Create a new instance of UserAccount linking the user as an admin
+    user_account = UserAccount(
+        role="Admin",
+        is_admin=True,
+        user_id=current_user_id,
+        account=account
+    )
 
-#     # respond
-#     return card_schema.dump(card)
+    # Add the new account and user_account to the session
+    db.session.add(account)
+    db.session.add(user_account)
+    db.session.commit()
+
+    # respond
+    return account_schema.dump(account), 201
+
+# # Allow a user to join another user account
+@account_bp.route("/join/<int:account_id>", methods=["POST"])
+@jwt_required()
+def join_account(account_id):
+
+    current_user_id = get_jwt_identity()
+
+    # fetch the account
+    stmt = db.select(Account).filter_by(id = account_id)
+    account = db.session.scalar(stmt)
+
+    if not account:
+        return {"error": f"Account with id {account_id} not found"}, 404
+   
+    # Check if the user is already associated with this account
+    existing_user_account = db.session.query(UserAccount).filter_by(
+        user_id=current_user_id, account_id=account_id).first()
+    
+    if existing_user_account:
+        return {"error": "You are already a member of this account"}, 400
+
+    # Fetch the user instance
+    user = db.session.get(User, current_user_id)
+
+    # allow use to join
+    user_account = UserAccount(
+        role = "Viewer",
+        user = user,
+        account = account
+    )
+
+    # add and commit session
+    db.session.add(user_account)
+    db.session.commit()
+
+    # return the created commit
+    return account_schema.dump(account), 201 
+
+# Allow the admin of the account to update account name and type
+@account_bp.route("/update/<int:account_id>", methods=["PUT", "PATCH"])
+@jwt_required()
+def update_account(account_id):
+
+    # fetch the Account from db
+    stmt = db.select(Account).filter_by(id=account_id)
+    account = db.session.scalar(stmt)
+
+    if not account:
+        return {"error": "Account does not exist"}, 404
+
+    # Fetch the current user from the database
+    current_user_id = get_jwt_identity()
+    current_user = db.session.get(User, current_user_id)
+
+    if not current_user:
+        return {"error": "User does not exist"}, 404
+
+    # Check if the current user is an admin in the same account
+    admin_stmt = db.select(UserAccount).filter_by(
+        user_id=current_user_id, 
+        account_id=account_id, 
+        is_admin=True
+        )
+    
+    admin_user_account = db.session.scalar(admin_stmt)
+
+    if not admin_user_account:
+        return {"error": "You are not authorised to update roles for this user account"}, 403
+
+    # Get the fields from the body of the request
+    body_data = request.get_json()
+    
+    # Update the account fields
+    account.name = body_data.get("name", account.name)
+    account.type = body_data.get("type", account.type)
+
+    # Add and commit session
+    db.session.commit()
+
+    # Return the updated account
+    return account_schema.dump(account), 200
+
+# Allow the admin of the account to delete the account
+@account_bp.route("/delete/<int:account_id>", methods=["DELETE"])
+@jwt_required()
+def delete_account(account_id):
+
+    # fetch the Account from db
+    stmt = db.select(Account).filter_by(id=account_id)
+    account = db.session.scalar(stmt)
+
+    if not account:
+        return {"error": "Account does not exist"}, 404
+
+    # Fetch the current user from the database
+    current_user_id = get_jwt_identity()
+    current_user = db.session.get(User, current_user_id)
+
+    if not current_user:
+        return {"error": "User does not exist"}, 404
+
+    # Check if the current user is an admin in the same account
+    admin_stmt = db.select(UserAccount).filter_by(
+        user_id=current_user_id,
+        account_id=account_id, 
+        is_admin=True
+        )
+    
+    admin_user_account = db.session.scalar(admin_stmt)
+
+    if not admin_user_account:
+        return {"error": "You are not authorised to delete this account"}, 403
+
+    # If all checks are passed
+    # delete account
+    db.session.delete(account)
+    db.session.commit()
+
+    # return success message
+    return {"message": f"Account '{account.id}' deleted successfully"}

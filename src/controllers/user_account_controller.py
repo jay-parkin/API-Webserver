@@ -18,14 +18,6 @@ def get_all_user_accounts():
 
     return user_accounts_schema.dump(user_accounts)
 
-# Allow a user to join an user account
-@user_account_bp.route("/join/<int:user_account_id>", methods=["POST"])
-@jwt_required()
-def join_user_account(user_account_id):
-    
-
-
-
 # Allowing the user to leave a user_account
 @user_account_bp.route("/<int:user_account_id>", methods=["DELETE"])
 @jwt_required()
@@ -66,22 +58,15 @@ def update_role(user_account_id):
     stmt = db.select(UserAccount).filter_by(id=user_account_id)
     user_account = db.session.scalar(stmt)
 
+    if not user_account:
+        return {"error": "User Account does not exist"}, 404
+
     # Fetch the current user from the database
     current_user_id = get_jwt_identity()
     current_user = db.session.get(User, current_user_id)
 
     if not current_user:
         return {"error": "User does not exist"}, 404
-
-    # Get fields from the body of the request
-    body_data = UserAccountSchema().load(request.get_json(), partial=True)
-
-    # Fetch the user_account from the database
-    stmt = db.select(UserAccount).filter_by(id=user_account_id)
-    user_account = db.session.scalar(stmt)
-
-    if not user_account:
-        return {"error": "User Account does not exist"}, 404
 
     # Check if the current user is an admin in the same account
     admin_stmt = db.select(UserAccount).filter_by(user_id=current_user_id, account_id=user_account.account_id, is_admin=True)
@@ -91,8 +76,14 @@ def update_role(user_account_id):
         return {"error": "You are not authorised to update roles for this user account"}, 403
 
     # Update the fields
-    user_account.role = body_data["role"] or user_account.role
-    user_account.is_admin = body_data["is_admin"] or user_account.is_admin
+    user_account.role = body_data.get("role", user_account.role)
+
+    if user_account.role == "Admin":
+        user_account.is_admin = True
+    
+    else:
+        user_account.is_admin = False
+
 
     # Commit to the database
     db.session.commit()
