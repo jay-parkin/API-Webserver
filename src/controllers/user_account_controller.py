@@ -1,11 +1,10 @@
-from datetime import timedelta, date
 
 from flask import Blueprint, request
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from models.user_account import UserAccount, UserAccountSchema, user_accounts_schema, user_account_schema
 from models.user import User
-from init import bcrypt, db
+from init import db
 
 user_account_bp = Blueprint("user_account", __name__, url_prefix="/user_accounts")
 

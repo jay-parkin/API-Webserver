@@ -150,6 +150,6 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
    <img src="docs/planning/erd/ExpenseERD 240708.jpg">
 </p>
 <p align="center">Stage Design: Final
-   <img src="docs/planning/erd/ExpenseERD 240716.jpg">
+   <img src="docs/planning/erd/ExpenseERD 240717.jpg">
 </p>
 </details>

@@ -31,13 +31,20 @@ def create_app(): # create the flask within a def
     from controllers.cli_controller import db_commands
     app.register_blueprint(db_commands)
 
+    # User
     from controllers.user_controller import user_bp
     app.register_blueprint(user_bp)
 
+    # Account
     from controllers.account_controller import account_bp
     app.register_blueprint(account_bp)
 
+    # UserAccount
     from controllers.user_account_controller import user_account_bp
     app.register_blueprint(user_account_bp)
+
+    # Transaction
+    from controllers.transaction_controller import transaction_bp
+    app.register_blueprint(transaction_bp)
 
     return app

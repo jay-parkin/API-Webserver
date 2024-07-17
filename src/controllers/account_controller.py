@@ -1,13 +1,14 @@
-from datetime import timedelta, date
+from datetime import date
 
 from flask import Blueprint, request
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import get_jwt_identity, jwt_required
 
 from models.account import Account, accounts_schema, account_schema
 from models.user_account import UserAccount
 from models.user import User
+from models.transaction import Transaction, transactions_schema
 
-from init import bcrypt, db
+from init import db
 
 account_bp = Blueprint("account", __name__, url_prefix="/accounts")
 
@@ -20,7 +21,26 @@ def get_all_accounts():
 
     return accounts_schema.dump(accounts)
 
-# # Allow user to create a new account
+# Allow user to retrive all transactions for account
+@account_bp.route("/<int:account_id>/transactions", methods=["GET"])
+def get_transactions_by_account(account_id):
+    # fetch account
+    stmt = db.select(Account).filter_by(id=account_id)
+    account = db.session.scalar(stmt)
+
+    if not account:
+        return {"error": "Account not found"}, 404
+    
+    # Fetch transactions associated with the account
+    transactions = db.session.query(Transaction).filter_by(account_id=account_id).all()
+    
+    if not transactions:
+        return {"error": "This account has not Transactions"}, 404
+    
+    return transactions_schema.dump(transactions)
+
+
+# Allow user to create a new account
 @account_bp.route("/create", methods=["POST"])
 @jwt_required()
 def create_account():
