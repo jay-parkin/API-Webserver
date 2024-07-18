@@ -140,7 +140,7 @@ def update_account(account_id):
     admin_user_account = db.session.scalar(admin_stmt)
 
     if not admin_user_account:
-        return {"error": "You are not authorised to update roles for this user account"}, 403
+        return {"error": "You are not authorised to update roles for this user account"}, 401
 
     # Get the fields from the body of the request
     # body_data = request.get_json()
@@ -185,7 +185,7 @@ def delete_account(account_id):
     admin_user_account = db.session.scalar(admin_stmt)
 
     if not admin_user_account:
-        return {"error": "You are not authorised to delete this account"}, 403
+        return {"error": "You are not authorised to delete this account"}, 401
 
     # If all checks are passed
     # delete account
@@ -193,4 +193,4 @@ def delete_account(account_id):
     db.session.commit()
 
     # return success message
-    return {"message": f"Account '{account.id}' deleted successfully"}
+    return {"message": f"Account '{account.id}' deleted successfully"}, 200

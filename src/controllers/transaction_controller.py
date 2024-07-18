@@ -114,11 +114,11 @@ def delete_transaction(transaction_id):
         user_id=current_user_id, account_id=transaction.account_id).first()
 
     if not user_account:
-        return {"error": "You are not authorised to delete a transaction for this account"}, 404
+        return {"error": "You are not authorised to delete a transaction for this account"}, 401
     
     # Check if the user's role is not admin
     if not user_account.role == "Admin":
-        return {"error": "Only Admin are authorised to delete transactions"}, 404
+        return {"error": "Only Admin are authorised to delete transactions"}, 401
 
     # If all checks are passed
     # delete account
@@ -126,7 +126,7 @@ def delete_transaction(transaction_id):
     db.session.commit()
 
     # return success message
-    return {"message": f"Transaction '{transaction.id}' deleted successfully"}
+    return {"message": f"Transaction '{transaction.id}' deleted successfully"}, 200
     
 # Allow the admin or contributor to update transaction information
 @transaction_bp.route("/update/<int:transaction_id>", methods=["PUT", "PATCH"])
@@ -149,11 +149,11 @@ def update_transaction(transaction_id):
         user_id=current_user_id, account_id=transaction.account_id).first()
 
     if not user_account:
-        return {"error": "You are not authorised to delete a transaction for this account"}, 404
+        return {"error": "You are not authorised to delete a transaction for this account"}, 401
     
     # Check if the user's role is not admin or contributor
     if user_account.role == "Viewer":
-        return {"error": "Only Admin are authorised to delete transactions"}, 404
+        return {"error": "Only Admin are authorised to delete transactions"}, 401
     
     # get the data from the body of the request
     body_data = TransactionSchema().load(request.get_json(), partial=True)

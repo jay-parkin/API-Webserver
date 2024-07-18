@@ -34,7 +34,7 @@ def delete_user_account(user_account_id):
 
     # only allow the user to leave the user account
     if str(user_account.user_id) != str(current_user_id):
-        return {"error": "You are not authorised to remove this user account"}, 403
+        return {"error": "You are not authorised to remove this user account"}, 401
 
     # If all checks are passed
     # delete/leave user_account
@@ -42,7 +42,7 @@ def delete_user_account(user_account_id):
     db.session.commit()
 
     # return success message
-    return {"message": f"User Account '{user_account.id}' deleted successfully"}
+    return {"message": f"User Account '{user_account.id}' deleted successfully"}, 200
    
 
 # Allow the admin to update user roles
@@ -72,7 +72,7 @@ def update_role(user_account_id):
     admin_user_account = db.session.scalar(admin_stmt)
 
     if not admin_user_account:
-        return {"error": "You are not authorised to update roles for this user account"}, 403
+        return {"error": "You are not authorised to update roles for this user account"}, 401
 
     # Update the fields
     user_account.role = body_data.get("role", user_account.role)
