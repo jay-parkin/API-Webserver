@@ -3,7 +3,7 @@ from datetime import date
 from flask import Blueprint, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
-from models.account import Account, accounts_schema, account_schema
+from models.account import Account, AccountSchema, accounts_schema, account_schema
 from models.user_account import UserAccount
 from models.user import User
 from models.transaction import Transaction, transactions_schema
@@ -143,13 +143,14 @@ def update_account(account_id):
         return {"error": "You are not authorised to update roles for this user account"}, 403
 
     # Get the fields from the body of the request
-    body_data = request.get_json()
+    # body_data = request.get_json()
+    body_data = AccountSchema().load(request.get_json(), partial=True)
     
     # Update the account fields
     account.name = body_data.get("name", account.name)
     account.type = body_data.get("type", account.type)
 
-    # Add and commit session
+    # commit session
     db.session.commit()
 
     # Return the updated account

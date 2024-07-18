@@ -8,10 +8,10 @@ class Transaction(db.Model):
     __tablename__ = "transactions"
 
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String, nullable=False)
+    type = db.Column(db.String(100), nullable=False)
     amount = db.Column(db.Numeric(precision=10, scale=2), nullable=False)
     date = db.Column(db.Date)
-    description = db.Column(db.String)
+    description = db.Column(db.String(100))
     created_at = db.Column(db.Date)
 
     # Foreign relation
