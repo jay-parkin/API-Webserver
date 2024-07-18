@@ -47,4 +47,8 @@ def create_app(): # create the flask within a def
     from controllers.transaction_controller import transaction_bp
     app.register_blueprint(transaction_bp)
 
+    # Category
+    from controllers.category_controller import category_bp
+    app.register_blueprint(category_bp)
+
     return app

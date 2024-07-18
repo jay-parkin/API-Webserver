@@ -5,11 +5,21 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 
 from models.account import Account
 from models.user_account import UserAccount
-from models.transaction import Transaction, TransactionSchema, transaction_schema
+from models.transaction import Transaction, TransactionSchema, transaction_schema, transactions_schema
+from models.category import Category
 
 from init import db
 
 transaction_bp = Blueprint("transaction", __name__, url_prefix="/transactions")
+
+# Allow all category to be monitored
+@transaction_bp.route("/")
+def get_all_transactions():
+    
+    stmt = db.select(Transaction).order_by(Transaction.id)
+    transactions = db.session.scalars(stmt)
+
+    return transactions_schema.dump(transactions)
 
 # Allow only admin or contributors to create a new transaction
 @transaction_bp.route("/create/<int:account_id>", methods=["POST"])
@@ -37,10 +47,30 @@ def create_transaction(account_id):
     if user_account.role == "Viewer":
         return {"error": "Viewers not authorised to create transactions"}, 404
 
-    # get the data from the body of the request
+    # Fetch the category from the database
     body_data = request.get_json()
+    category_name = body_data.pop("category_name", None)
 
-     # Parse the date from the request body
+    # create a new category instance
+    if category_name:
+        category = db.session.query(Category).filter_by(name=category_name).first()
+        
+        if not category:
+            # create the category if it doesn't exist
+            category = Category(
+                name=category_name,
+                created_at=date.today(),
+                user_id=current_user_id
+            )
+            db.session.add(category)
+            db.session.commit()
+    else:
+        category = None
+
+    # get the data from the body of the request
+    body_data = TransactionSchema().load(request.get_json(), partial=True)
+
+    # parse the date
     try:
         transaction_date = datetime.strptime(body_data.get("date"), "%Y-%m-%d").date()
     except ValueError:
@@ -54,6 +84,7 @@ def create_transaction(account_id):
         description = body_data.get("description"),
         created_at = date.today(),
         account = account,
+        category = category,
         user_id = current_user_id
     )
 
@@ -61,7 +92,7 @@ def create_transaction(account_id):
     db.session.add(transaction)
     db.session.commit()
 
-    return transaction_schema.dump(transaction)
+    return transaction_schema.dump(transaction), 201
 
 # Allow the admin of the account to delete the transaction
 @transaction_bp.route("/delete/<int:transaction_id>", methods=["DELETE"])

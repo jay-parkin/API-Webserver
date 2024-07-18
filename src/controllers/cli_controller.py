@@ -7,6 +7,7 @@ from models.user import User
 from models.account import Account
 from models.transaction import Transaction
 from models.user_account import UserAccount
+from models.category import Category
 
 db_commands = Blueprint("db", __name__)
 
@@ -106,6 +107,21 @@ def seed_tables():
 
     db.session.add_all(user_accounts)
 
+    categories = [ 
+        Category(
+            name = "First Collection",
+            created_at = date.today(),
+            user = users[3]
+        ),
+        Category(
+            name = "Second Collection",
+            created_at = date.today(),
+            user = users[0]
+        ),
+    ]
+
+    db.session.add_all(categories)
+       
     transactions = [
         Transaction(
             type = "Income",
@@ -114,6 +130,7 @@ def seed_tables():
             description = "Wage or Salary",
             created_at = date.today(),
             account = accounts[2],
+            category = categories[1],
             user = users[0]
         ),
         Transaction(
@@ -141,6 +158,7 @@ def seed_tables():
             description = "Investment",
             created_at = date.today(),
             account = accounts[2],
+            category = categories[1],
             user = users[0]
         ),
         Transaction(
@@ -159,7 +177,8 @@ def seed_tables():
             description = "Sold Tredmill",
             created_at = date.today(),
             account = accounts[1],
-            user = users[1]
+            category = categories[0],
+            user = users[3]
         )
     ]
 

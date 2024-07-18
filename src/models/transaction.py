@@ -17,21 +17,26 @@ class Transaction(db.Model):
     # Foreign relation
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey("categories.id"))
     
     user = db.relationship("User", back_populates = "transaction")
     account = db.relationship("Account", back_populates = "transaction")
+    category = db.relationship("Category", back_populates = "transaction")
+
 
 class TransactionSchema(ma.Schema):
 
     # a list of nested fields
     user = fields.Nested("UserSchema", only=["name", "email"])
     account = fields.Nested("AccountSchema", exclude=["transaction"])
+    category = fields.Pluck("CategorySchema", "name")
 
     # Uses marshmallow to create some validations
     type = fields.String(validate=OneOf(VALID_TYPES))
-
+    
     class Meta:
-        fields = ("id", "type", "amount", "date", "description", "created_at", "account", "user")
+        fields = ("id", "type", "amount", "date", "description", 
+                  "created_at", "account", "category", "user")
 
 # to handle a single user object
 transaction_schema = TransactionSchema()

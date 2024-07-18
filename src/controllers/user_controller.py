@@ -10,7 +10,6 @@ from init import bcrypt, db
 from sqlalchemy.exc import IntegrityError
 from psycopg2 import errorcodes
 
-
 user_bp = Blueprint("user", __name__, url_prefix="/users")
 
 # Allow users to register to the app

@@ -8,7 +8,7 @@ class UserAccount(db.Model):
     # define the table name
     __tablename__ = "user_accounts"
 
-    # defin the primary key
+    # define the primary key
     id = db.Column(db.Integer, primary_key=True)
 
     # more attributes(columns)
