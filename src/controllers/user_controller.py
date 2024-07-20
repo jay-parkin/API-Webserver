@@ -105,8 +105,10 @@ def update_user():
 @user_bp.route("/delete", methods=["DELETE"])
 @jwt_required()
 def delete_user():
-    # find the user with the id from DB
-    stmt = db.select(User).filter_by(id=get_jwt_identity())
+    user_id = get_jwt_identity()
+
+    # Find the user
+    stmt = db.select(User).filter_by(id=user_id)
     user = db.session.scalar(stmt)
 
     # if user exists

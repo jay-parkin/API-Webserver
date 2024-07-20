@@ -111,12 +111,20 @@ def seed_tables():
         Category(
             name = "First Collection",
             created_at = date.today(),
-            user = users[3]
+            account = accounts[2],
+            user = users[0]
         ),
         Category(
             name = "Second Collection",
             created_at = date.today(),
+            account = accounts[3],
             user = users[0]
+        ),
+        Category(
+            name = "Third Collection",
+            created_at = date.today(),
+            account = accounts[1],
+            user = users[1]
         ),
     ]
 

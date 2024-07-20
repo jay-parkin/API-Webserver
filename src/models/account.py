@@ -20,12 +20,14 @@ class Account(db.Model):
     created_at = db.Column(db.Date)
 
     user_account = db.relationship("UserAccount", cascade="all, delete-orphan", back_populates="account")
+    category = db.relationship("Category", cascade="all, delete-orphan", back_populates="account")
     transaction = db.relationship("Transaction", cascade="all, delete-orphan", back_populates="account")
 
 class AccountSchema(ma.Schema):
 
     # a list of nested fields
     user_account = fields.List(fields.Nested("UserAccountSchema", exclude=["account"]))
+    category = fields.List(fields.Nested("CategoryAccountSchema", exclude=["account"]))
     transaction = fields.List(fields.Nested("TransactionSchema", exclude=["account"]))
     
     # Uses marshmallow to create some validations

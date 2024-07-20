@@ -44,8 +44,12 @@ def get_transactions_by_account(account_id):
 @account_bp.route("/create", methods=["POST"])
 @jwt_required()
 def create_account():
-    # Get the current user ID from the JWT token
+    # Fetch the current user from the database
     current_user_id = get_jwt_identity()
+    current_user = db.session.get(User, current_user_id)
+
+    if not current_user:
+        return {"error": "User does not exist"}, 404
 
     # get the data from the body of the request
     body_data = account_schema.load(request.get_json())

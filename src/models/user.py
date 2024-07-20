@@ -16,7 +16,7 @@ class User(db.Model):
     created_at = db.Column(db.Date)
     
     # Foreign relation
-    user_account = db.relationship("UserAccount", back_populates = "user")
+    user_account = db.relationship("UserAccount", back_populates = "user", cascade="all, delete-orphan")
     transaction = db.relationship("Transaction", back_populates = "user")
     category = db.relationship("Category", back_populates = "user")
 

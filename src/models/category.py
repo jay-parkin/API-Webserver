@@ -15,18 +15,21 @@ class Category(db.Model):
 
     #Foreign relation
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"), nullable=False)
 
     user = db.relationship("User", back_populates = "category")
+    account = db.relationship("Account", back_populates = "category")
     transaction = db.relationship("Transaction", back_populates = "category")
 
 class CategorySchema(ma.Schema):
 
     # a list of nested fields
     user = fields.Nested("UserSchema", only=["name", "email"])
+    account = fields.Nested("AccountSchema", only=["id", "name", "type"])
     transaction = fields.List(fields.Nested("TransactionSchema", exclude=["category"]))
 
     class Meta:
-        fields = ("id", "name", "created_at", "user", "transaction")
+        fields = ("id", "name", "created_at", "user", "accounts", "transaction")
     
 # to handle a single category object
 category_schema = CategorySchema()
