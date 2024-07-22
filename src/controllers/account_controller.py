@@ -3,6 +3,8 @@ from datetime import date
 from flask import Blueprint, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
+from utils import authorise_user
+
 from models.account import Account, AccountSchema, accounts_schema, account_schema
 from models.user_account import UserAccount
 from models.user import User
@@ -118,6 +120,10 @@ def join_account(account_id):
 # Allow the admin of the account to update account name and type
 @account_bp.route("/update/<int:account_id>", methods=["PUT", "PATCH"])
 @jwt_required()
+@authorise_user(resource_model=Account, 
+                resource_param="account_id", 
+                attribute_name="id",
+                role_required=["Admin"])
 def update_account(account_id):
 
     # fetch the Account from db
@@ -126,25 +132,6 @@ def update_account(account_id):
 
     if not account:
         return {"error": "Account does not exist"}, 404
-
-    # Fetch the current user from the database
-    current_user_id = get_jwt_identity()
-    current_user = db.session.get(User, current_user_id)
-
-    if not current_user:
-        return {"error": "User does not exist"}, 404
-
-    # Check if the current user is an admin in the same account
-    admin_stmt = db.select(UserAccount).filter_by(
-        user_id=current_user_id, 
-        account_id=account_id, 
-        is_admin=True
-        )
-    
-    admin_user_account = db.session.scalar(admin_stmt)
-
-    if not admin_user_account:
-        return {"error": "You are not authorised to update roles for this user account"}, 401
 
     # Get the fields from the body of the request
     # body_data = request.get_json()
@@ -163,6 +150,10 @@ def update_account(account_id):
 # Allow the admin of the account to delete the account
 @account_bp.route("/delete/<int:account_id>", methods=["DELETE"])
 @jwt_required()
+@authorise_user(resource_model=Account, 
+                resource_param="account_id", 
+                attribute_name="id",
+                role_required=["Admin"])
 def delete_account(account_id):
 
     # fetch the Account from db
@@ -171,25 +162,6 @@ def delete_account(account_id):
 
     if not account:
         return {"error": "Account does not exist"}, 404
-
-    # Fetch the current user from the database
-    current_user_id = get_jwt_identity()
-    current_user = db.session.get(User, current_user_id)
-
-    if not current_user:
-        return {"error": "User does not exist"}, 404
-
-    # Check if the current user is an admin in the same account
-    admin_stmt = db.select(UserAccount).filter_by(
-        user_id=current_user_id,
-        account_id=account_id, 
-        is_admin=True
-        )
-    
-    admin_user_account = db.session.scalar(admin_stmt)
-
-    if not admin_user_account:
-        return {"error": "You are not authorised to delete this account"}, 401
 
     # If all checks are passed
     # delete account

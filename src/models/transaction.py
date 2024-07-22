@@ -36,7 +36,7 @@ class TransactionSchema(ma.Schema):
     
     class Meta:
         fields = ("id", "type", "amount", "date", "description", 
-                  "created_at", "account", "category", "user")
+                  "created_at", "user", "account", "category", "category_id")
 
 # to handle a single user object
 transaction_schema = TransactionSchema()

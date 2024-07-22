@@ -18,14 +18,14 @@ class User(db.Model):
     # Foreign relation
     user_account = db.relationship("UserAccount", back_populates = "user", cascade="all, delete-orphan")
     transaction = db.relationship("Transaction", back_populates = "user")
-    category = db.relationship("Category", back_populates = "user")
+    # category = db.relationship("Category", back_populates = "user")
 
 class UserSchema(ma.Schema):
 
     # a list of nested fields
     user_account = fields.List(fields.Nested("UserAccountSchema", exclude=["user"]))
     transaction = fields.List(fields.Nested("TransactionSchema", exclude=["user"]))
-    category = fields.List(fields.Nested("CategorySchema", exclude=["user"]))
+    # category = fields.List(fields.Nested("CategorySchema", exclude=["user"]))
     
     # a list of required fields
     email = fields.String(required=True, 
