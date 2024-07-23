@@ -80,9 +80,30 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 
 <details>
    <summary>Trello Planning: Screenshots</summary>
+   <p align="center">First Week</p>
 <p align="center">
-    <img src="docs/planning/screenshots/planning_stage_01.JPG">
-    <img src="docs/planning/screenshots/planning_stage_02.JPG">
+   <img src="docs/planning/trello/planning_stage_01.JPG" width=800>
+   <img src="docs/planning/trello/planning_stage_02.JPG" width=800>
+</p>
+<p align="center">Second Week</p>
+<p align="center">
+   <img src="docs/planning/trello/planning_stage_15.JPG">
+   <img src="docs/planning/trello/planning_stage_16.JPG">
+   <img src="docs/planning/trello/planning_stage_17.JPG">
+</p>
+</details>
+
+<details>
+   <summary>Card Planning: Screenshots</summary>
+<p align="center">
+   <img src="docs/planning/trello/cards/card_r01.JPG" width=500>
+   <img src="docs/planning/trello/cards/card_r02.JPG" width=500>
+   <img src="docs/planning/trello/cards/card_r03.JPG" width=500>
+   <img src="docs/planning/trello/cards/card_r04.JPG" width=500>
+   <img src="docs/planning/trello/cards/card_r06.JPG" width=500>
+   <img src="docs/planning/trello/cards/card_r05.JPG" width=500>
+   <img src="docs/planning/trello/cards/card_r07.JPG" width=500>
+   <img src="docs/planning/trello/cards/card_r08.JPG" width=500>
 </p>
 </details>
 
