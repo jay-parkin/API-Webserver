@@ -1,35 +1,22 @@
-
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from utils import authorise_user
 
-from models.user_account import UserAccount, UserAccountSchema, user_accounts_schema, user_account_schema
-from models.user import User
+from models.user_account import UserAccount, UserAccountSchema, user_account_schema
 from init import db
 
 user_account_bp = Blueprint("user_account", __name__, url_prefix="/user_accounts")
-
-# Allow all user_accounts to be monitored
-@user_account_bp.route("/")
-def get_all_user_accounts():
-
-    stmt = db.select(UserAccount).order_by(UserAccount.id)
-    user_accounts = db.session.scalars(stmt)
-
-    return user_accounts_schema.dump(user_accounts)
 
 # Allowing the user to leave a user_account
 @user_account_bp.route("/<int:user_account_id>", methods=["DELETE"])
 @jwt_required()
 def delete_user_account(user_account_id):
-    
-
-    # fetch the user_account from the db with the id
+    # Fetch the user_account from the db with the id
     stmt = db.select(UserAccount).filter_by(id = user_account_id)
     user_account = db.session.scalar(stmt)
     
-    # if user account doesnt exist
+    # If user account doesnt exist
     if not user_account:
         return {"error": f"User Account with id {user_account_id} not found"}, 404
     
@@ -46,13 +33,12 @@ def delete_user_account(user_account_id):
         # Admins can only delete users from the same account
         if current_user.account_id != user_account.account_id:
             return {"error": "You are not authorised to remove this user account"}, 401
-        
 
-        # delete user as admin
+        # Delete user as admin
         db.session.delete(user_account)
         db.session.commit()
 
-        # return success message
+        # Return success message
         return {"message": f"User Account '{user_account.id}' deleted successfully"}, 200
 
      # Regular users can only delete their own account
@@ -60,14 +46,13 @@ def delete_user_account(user_account_id):
         return {"error": "You are not authorised to remove this user account"}, 401
 
     # If all checks are passed
-    # delete/leave user_account
+    # Delete/leave user_account
     db.session.delete(user_account)
     db.session.commit()
 
     # return success message
     return {"message": f"User Account '{user_account.id}' deleted successfully"}, 200
    
-
 # Allow the admin to update user roles
 @user_account_bp.route("/update/<int:user_account_id>", methods=["PUT", "PATCH"])
 @jwt_required()
@@ -76,11 +61,10 @@ def delete_user_account(user_account_id):
                 attribute_name="account_id",
                 role_required=["Admin"])
 def update_role(user_account_id):
-
-    # get fields from body of the request
+    # Get fields from body of the request
     body_data = UserAccountSchema().load(request.get_json(), partial=True)
 
-    # fetch the UserAccount from db
+    # Fetch the UserAccount from db
     stmt = db.select(UserAccount).filter_by(id=user_account_id)
     user_account = db.session.scalar(stmt)
 
@@ -101,4 +85,3 @@ def update_role(user_account_id):
 
     # Return a response
     return user_account_schema.dump(user_account), 200
-    

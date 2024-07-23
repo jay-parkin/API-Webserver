@@ -16,28 +16,28 @@ user_bp = Blueprint("user", __name__, url_prefix="/users")
 @user_bp.route("/register", methods=["POST"])
 def register_user():
     try:
-        # get the date from the body
+        # Get the date from the body
         body_data = UserSchema().load(request.get_json())
 
-        # create an instance of the User model
+        # Create an instance of the User model
         user = User(
             name = body_data.get("name"),
             email = body_data.get("email"),
             created_at = date.today()
         )
 
-        # extract pass from the body
+        # Extract pass from the body
         password = body_data.get("password_hash")
 
-        # hash the password
+        # Hash the password
         if password:
             user.password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
 
-        # add and commit to the db
+        # Add and commit to the db
         db.session.add(user)
         db.session.commit()
 
-        # respond back
+        # Respond back
         return user_schema.dump(user), 201
     
     except IntegrityError as err:
@@ -50,55 +50,53 @@ def register_user():
 # Allow the user to login their account
 @user_bp.route("/login", methods=["POST"])
 def login_user():
-    # get data from the body of the request
+    # Get data from the body of the request
     body_data = request.get_json()
     
-    # find the user with the email
+    # Find the user with the email
     stmt = db.select(User).filter_by(email = body_data.get("email"))
     user = db.session.scalar(stmt)
     
-    # if user exists? and password is correct?
+    # If user exists? and password is correct?
     if user and bcrypt.check_password_hash(user.password_hash, body_data.get("password_hash")):
-        # create jwt
+        # Create jwt
         token = create_access_token(identity = str(user.id), expires_delta = timedelta(days = 1))
 
-        # respond back
+        # Respond back
         return {"email": user.email, "token": token}
 
-    # else
     else:
-        # respond back with error message
-        return {"error": "Invalid email or password"}, 401 # unauthenicated
+        # Respond back with error message
+        return {"error": "Invalid email or password"}, 401 # Unauthenicated
     
 # Allow the user to only update themselves
 @user_bp.route("/update", methods=["PUT", "PATCH"])
 @jwt_required()
 def update_user():
-    # get fields from body of the request
+    # Get fields from body of the request
     body_data = UserSchema().load(request.get_json(), partial=True)
     password = body_data.get("password_hash")
 
-    # fetch the user from db
+    # Fetch the user from db
     stmt = db.select(User).filter_by(id=get_jwt_identity())
     user = db.session.scalar(stmt)
 
-    # if user exist
+    # If user exist
     if user:
-        # update the fields
+        # Update the fields
         user.name = body_data.get("name", user.name)
         
         if password:
             user.password_hash = bcrypt.generate_password_hash(password).decode("utf-8")
 
-        # commit to the db
+        # Commit to the db
         db.session.commit()
 
-        # return a response
+        # Return a response
         return user_schema.dump(user)
-    
-    # else
+
     else:
-        # return an error
+        # Return an error
         return {"error": "User does not exist"}, 404
 
 # Allows the user to only delete themselves
@@ -111,18 +109,17 @@ def delete_user():
     stmt = db.select(User).filter_by(id=user_id)
     user = db.session.scalar(stmt)
 
-    # if user exists
+    # If user exists
     if user:
-        # delete the user
+        # Delete the user
         db.session.delete(user)
 
-        # commit to the DB
+        # Commit to the DB
         db.session.commit()
 
-        # return a message
+        # Return a message
         return {"message": f"User with id {user.id} deleted"}
 
-    # else
     else:
-        # return error saying user does not exist
+        # Return error saying user does not exist
         return {"error": "User does not exist"}, 404

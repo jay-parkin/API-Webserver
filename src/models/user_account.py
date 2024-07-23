@@ -1,17 +1,18 @@
 from init import db, ma
+
 from marshmallow import fields
 from marshmallow.validate import OneOf
 
 VALID_TYPES = ("Admin", "Contributor", "Viewer")
 
 class UserAccount(db.Model):
-    # define the table name
+    # Define the table name
     __tablename__ = "user_accounts"
 
-    # define the primary key
+    # Define the primary key
     id = db.Column(db.Integer, primary_key=True)
 
-    # more attributes(columns)
+    # More attributes(columns)
     role = db.Column(db.String(100), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
 
@@ -23,7 +24,7 @@ class UserAccount(db.Model):
     account = db.relationship("Account", back_populates = "user_account")
 
 class UserAccountSchema(ma.Schema):
-    # a list nested fields
+    # A list nested fields
     user = fields.Nested("UserSchema", only=["name", "email"])
     account = fields.Nested("AccountSchema", exclude=["user_account"])
 
@@ -33,8 +34,8 @@ class UserAccountSchema(ma.Schema):
     class Meta:
         fields = ("id", "role", "is_admin", "user", "account")
 
-# to handle a single user object
+# To handle a single user object
 user_account_schema = UserAccountSchema()
 
-# to handle a list of user objects
+# To handle a list of user objects
 user_accounts_schema = UserAccountSchema(many=True)

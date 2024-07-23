@@ -1,12 +1,12 @@
-
 import os
 from flask import Flask
 
 from marshmallow.exceptions import ValidationError
 
-from init import db, ma, bcrypt, jwt # import from init.py
+from init import db, ma, bcrypt, jwt
 
-def create_app(): # create the flask within a def
+# Create the flask within a def
+def create_app():
     app = Flask(__name__)
 
     app.json.sort_keys = False

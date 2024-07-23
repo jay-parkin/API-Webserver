@@ -11,24 +11,24 @@ from models.category import Category
 
 db_commands = Blueprint("db", __name__)
 
-# cli command used - flask db create
+# Cli command used - flask db create
 @db_commands.cli.command("create")
 def create_tables():
     db.create_all()
 
     print("Tables have been created...")
 
-# cli command used - flask db drop
+# Cli command used - flask db drop
 @db_commands.cli.command("drop")
 def drop_tables():
     db.drop_all()
     print("Tables have been dropped...")
 
-# cli command used - flask db seed
+# Cli command used - flask db seed
 @db_commands.cli.command("seed")
 def seed_tables():
 
-    # list of user instances
+    # List of user instances
     users = [
         User(
             name = "Admin",
@@ -112,19 +112,16 @@ def seed_tables():
             name = "First Collection",
             created_at = date.today(),
             account = accounts[2]
-            # user = users[0]
         ),
         Category(
             name = "Second Collection",
             created_at = date.today(),
             account = accounts[3]
-            # user = users[0]
         ),
         Category(
             name = "Third Collection",
             created_at = date.today(),
             account = accounts[1]
-            # user = users[1]
         ),
     ]
 

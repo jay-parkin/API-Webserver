@@ -1,4 +1,5 @@
 from init import db, ma
+
 from marshmallow import fields
 from marshmallow.validate import Length, And, Regexp, OneOf
 
@@ -8,13 +9,13 @@ VALID_TYPES = ("Regular Savings", "Personal Checking", "Business Checking", "Joi
 
 
 class Account(db.Model):
-    # define the table name
+    # Define the table name
     __tablename__ = "accounts"
 
-    # define the primary key
+    # Define the primary key
     id = db.Column(db.Integer, primary_key=True)
 
-    # more attributes (columns)
+    # More attributes (columns)
     name = db.Column(db.String(100), nullable=False)
     type = db.Column(db.String, nullable=False)
     created_at = db.Column(db.Date)
@@ -24,8 +25,7 @@ class Account(db.Model):
     transaction = db.relationship("Transaction", cascade="all, delete-orphan", back_populates="account")
 
 class AccountSchema(ma.Schema):
-
-    # a list of nested fields
+    # A list of nested fields
     user_account = fields.List(fields.Nested("UserAccountSchema", exclude=["account"]))
     category = fields.List(fields.Nested("CategoryAccountSchema", exclude=["account"]))
     transaction = fields.List(fields.Nested("TransactionSchema", exclude=["account"]))
@@ -41,8 +41,8 @@ class AccountSchema(ma.Schema):
     class Meta:
         fields = ("id", "name", "type", "created_at", "user_account", "transaction")
 
-# to handle a single user object
+# To handle a single user object
 account_schema = AccountSchema()
 
-# to handle a list of user objects
+# To handle a list of user objects
 accounts_schema = AccountSchema(many=True)

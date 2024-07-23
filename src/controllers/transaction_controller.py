@@ -6,22 +6,12 @@ from flask_jwt_extended import get_jwt_identity, jwt_required
 from utils import authorise_user
 
 from models.account import Account
-from models.user_account import UserAccount
-from models.transaction import Transaction, TransactionSchema, transaction_schema, transactions_schema
+from models.transaction import Transaction, TransactionSchema, transaction_schema
 from models.category import Category
 
 from init import db
 
 transaction_bp = Blueprint("transaction", __name__, url_prefix="/transactions")
-
-# Allow all category to be monitored
-@transaction_bp.route("/")
-def get_all_transactions():
-    
-    stmt = db.select(Transaction).order_by(Transaction.id)
-    transactions = db.session.scalars(stmt)
-
-    return transactions_schema.dump(transactions)
 
 # Allow only admin or contributors to create a new transaction
 @transaction_bp.route("/create/<int:account_id>", methods=["POST"])
@@ -31,8 +21,7 @@ def get_all_transactions():
                 attribute_name="id",
                 role_required=["Admin", "Contributor"])
 def create_transaction(account_id):
-
-    # fetch the account from database
+    # Fetch the account from database
     stmt = db.select(Account).filter_by(id=account_id)
     account = db.session.scalar(stmt)
 
@@ -43,13 +32,13 @@ def create_transaction(account_id):
     body_data = request.get_json()
     category_name = body_data.pop("category_name", None)
 
-    # create a new category instance if the category name is found
+    # Create a new category instance if the category name is found
     if category_name and account_id:
         category = db.session.query(Category).filter_by(
             name=category_name, account_id=account_id).first()
         
         if not category:
-            # create the category if it doesn't exist
+            # Create the category if it doesn't exist
             category = Category(
                 name=category_name,
                 created_at=date.today(),
@@ -67,16 +56,16 @@ def create_transaction(account_id):
     # Get the current user ID from the JWT token
     current_user_id = get_jwt_identity()
 
-    # get the data from the body of the request
+    # Get the data from the body of the request
     body_data = TransactionSchema().load(request.get_json(), partial=True)
 
-    # parse the date
+    # Parse the date
     try:
         transaction_date = datetime.strptime(body_data.get("date"), "%Y-%m-%d").date()
     except ValueError:
         return {"error": "Invalid date format. Date should be in YYY-MM-DD format"}
 
-    # create a new instance of a transaction
+    # Create a new instance of a transaction
     transaction = Transaction(
         type = body_data.get("type"),
         amount = float(body_data.get("amount")),
@@ -102,7 +91,7 @@ def create_transaction(account_id):
                 attribute_name="account_id",
                 role_required=["Admin"])
 def delete_transaction(transaction_id):
-    # fetch transaction
+    # Fetch transaction
     stmt = db.select(Transaction).filter_by(id=transaction_id)
     transaction = db.session.scalar(stmt)
 
@@ -110,11 +99,11 @@ def delete_transaction(transaction_id):
         return {"error:", f"Transaction {transaction_id} not found"}
 
     # If all checks are passed
-    # delete account
+    # Delete account
     db.session.delete(transaction)
     db.session.commit()
 
-    # return success message
+    # Return success message
     return {"message": f"Transaction '{transaction.id}' deleted successfully"}, 200
     
 # Allow the admin or contributor to update transaction information
@@ -125,15 +114,14 @@ def delete_transaction(transaction_id):
                 attribute_name="account_id",
                 role_required=["Admin", "Contributor"])
 def update_transaction(transaction_id):
-
-    # fetch transaction
+    # Fetch transaction
     stmt = db.select(Transaction).filter_by(id=transaction_id)
     transaction = db.session.scalar(stmt)
 
     if not transaction:
         return {"error:", f"Transaction {transaction_id} not found"}
     
-    # get the data from the body of the request
+    # Get the data from the body of the request
     body_data = TransactionSchema().load(request.get_json(), partial=True)
 
     # Parse the date from the request body, if provided
@@ -159,14 +147,14 @@ def update_transaction(transaction_id):
         if category.account_id != transaction.account_id:
             return {"error": f"Category {category_id} not found in this account"}, 403
 
-    # update transaction
+    # Update transaction
     transaction.type = body_data.get("type", transaction.type),
     transaction.amount = float(body_data.get("amount", transaction.amount)),
     transaction.date = transaction_date,
     transaction.description = body_data.get("description", transaction.description),
     transaction.category_id = category_id
     
-    # commit session
+    # Commit session
     db.session.commit()
 
     # Return the updated transaction
