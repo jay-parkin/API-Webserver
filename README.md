@@ -43,7 +43,7 @@ The Income and Expense Tracker API addresses the common challenges couples face 
 
 ## R2: Task Allocation and Tracking
 
-To ensure thorough task management and progress tracking, I use Trello. <br>
+To ensure thorough task management and progress tracking, I use [Atlassian's Trello](https://trello.com/home). <br>
 Trello allows me to organise tasks visually and track their status through various stages of completion.
 
 1. <b>Task Allocation</b>
@@ -193,27 +193,61 @@ pip install -r requirements.txt
 
 ## R4: Benefits and Drawbacks of PostgreSQL
 
+<b>Overview of Relational Database Systems (RDBMS)</b><br>
+Relational Database Systems are databases that store data in a structured format, using rows and columns. They are based on the relational model introduced by E.F. Codd in the 1970s. Data is organised into tables, and relationships between data items are managed through foreign keys and indexes. SQL (Structured Query Language) is the standard language used to interact with RDBMS.
+
+<b>Structured Data Storage</b>
+
+- Data is organised into tables with predefined schemas.<br>
+- Tables are made up of rows (records) and columns (fields), which helps in maintaining data consistency.
+
+<b>Data Integrity</b>
+
+- <b>ACID Transactions:</b> Ensures Atomicity, Consistency, Isolation, and Durability, which are crucial for reliable transaction processing.
+- <b>Constraints:</b> Enforces data integrity through primary keys, foreign keys, unique constraints, and check constraints.
+
+<b>Normalisation</b>
+
+- <b>Normalisation:</b> The process of organising data to reduce redundancy and improve data integrity. This involves dividing tables into smaller, related tables.
+
+<b>SQL Support</b>
+
+- <b>Query Language:</b> Provides a powerful and standardised way to query and manipulate data using SQL.
+
+<b>Indexing</b>
+
+- <b>Indexes:</b> Improve the speed of data retrieval operations on tables.
+
+<b>Relationships:</b>
+
+- <b>Joins:</b> Facilitate complex queries by allowing the combination of data from multiple tables based on related columns.
+
 ### Benefits
 
 1. <b>Advanced Features</b>:
+
    - <b>ACID Compliance</b>: Ensures reliable transactions and data integrity.
    - <b>Complex Queries</b>: Supports complex queries with SQL, including sub-selects, joins, and window functions.
    - <b>Full-Text Search</b>: Provides built-in full-text search capabilities.
    - <b>JSON Support</b>: Allows storing and querying JSON data efficiently.
 
 2. <b>Extensibility</b>:
+
    - <b>Custom Data Types</b>: You can define your own data types and functions.
    - <b>Extensions</b>: Supports extensions like PostGIS for spatial data and others for added functionality.
 
 3. <b>Scalability</b>:
+
    - <b>Large Data Volumes</b>: Handles large databases efficiently.
    - <b>Concurrency Control</b>: Uses Multi-Version Concurrency Control (MVCC) to handle high concurrency with minimal locking.
 
 4. <b>Standards Compliance</b>:
+
    - <b>SQL Compliance</b>: Adheres closely to SQL standards, making it easier to migrate from other SQL databases.
    - <b>Data Integrity</b>: Enforces data integrity constraints such as foreign keys, unique constraints, and check constraints.
 
 5. <b>Open Source</b>:
+
    - <b>Cost-Effective</b>: No licensing costs associated with the software.
    - <b>Community Support</b>: Large community with extensive documentation, forums, and third-party tools.
 
@@ -224,22 +258,27 @@ pip install -r requirements.txt
 ### Drawbacks
 
 1. <b>Complexity</b>:
+
    - <b>Configuration</b>: May require fine-tuning and complex configuration for optimal performance.
    - <b>Learning Curve</b>: Advanced features and extensibility can lead to a steeper learning curve.
 
 2. <b>Performance Overheads</b>:
+
    - <b>Write-Heavy Workloads</b>: While PostgreSQL handles read-heavy workloads well, write-heavy workloads might experience some performance overhead due to MVCC and other features.
 
 3. <b>Resource Consumption</b>:
+
    - <b>Memory Usage</b>: Can be resource-intensive, especially with complex queries and large datasets.
    - <b>Disk Space</b>: May use more disk space due to its support for extensive features and indexing.
 
 4. <b>Replication and Clustering</b>:
+
    - <b>Built-in Options</b>: While PostgreSQL supports replication, clustering solutions are not as straightforward as those in some commercial databases.
 
 5. <b>Tooling and Ecosystem</b>:
    - <b>Third-Party Tools</b>: Some advanced features might not have as rich a set of third-party tools compared to commercial databases.
 
+Relational database systems, like PostgreSQL, are great for handling structured data while ensuring data integrity, flexibility, and strong query capabilities. They work well for a lot of different applications, but as your data grows in size and complexity, you'll need to manage and optimise them carefully.
 
 ## R6: ERD Design
 
