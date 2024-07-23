@@ -17,7 +17,7 @@ class Account(db.Model):
 
     # More attributes (columns)
     name = db.Column(db.String(100), nullable=False)
-    type = db.Column(db.String, nullable=False)
+    type = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.Date)
 
     user_account = db.relationship("UserAccount", cascade="all, delete-orphan", back_populates="account")

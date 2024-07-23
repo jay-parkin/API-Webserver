@@ -111,59 +111,121 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 
 ### User
 
-<b>Attributes:</b> `user_id`, `user_name`, `user_email`, `password_hash`, `created_at` <br>
-<b>Primary Key:</b> `user_id`
+<b>Attributes:</b>
+
+- `id` (Integer)
+- `user_name` (String: max length 100)
+- `user_email`(String: max length 100, unique, not nullable)
+- `password_hash`(String: max length 100, not nullable)
+- `created_at` (Date) <br>
+
+<b>Primary Key:</b> `id`
 
 #### Relationships <br>
 
-- Each user can have multiple UserAccount associations (one-to-many relationship).
-- Each user can have multiple Category entries (one-to-many relationship).
-- Each user can have multiple Transaction entries (one-to-many relationship).
+- Each User can have multiple UserAccount associations (one-to-many relationship).
+- Each User can have multiple Transaction entries (one-to-many relationship).
 
 ### Account <br>
 
-<b>Attributes:</b> `account_id`, `account_name`, `account_type`, `created_at` <br>
-<b>Primary Key:</b> `account_id`
+<b>Attributes:</b>
+
+- `id` (Integer)
+- `account_name` (String: max length 100, not nullable)
+- `account_type` (String: max length 100, not nullable)
+- `created_at` (Date) <br>
+
+<b>Primary Key:</b> `id`
 
 #### Relationships <br>
 
-- Each account can have multiple UserAccount associations (one-to-many relationship).
-- Each account can have multiple Transaction entries (one-to-many relationship).
+- Each Account can have multiple UserAccount associations (one-to-many relationship).
+- Each Account can have multiple Category entries (one-to-many relationship).
+- Each Account can have multiple Transaction entries (one-to-many relationship).
 
 ### UserAccount <br>
 
-<b>Attributes:</b> `user_account_id`, `role`, `user_id`, `account_id`, `created_at` <br>
-<b>Primary Key:</b> `user_account_id`
+<b>Attributes:</b>
+
+- `id` (Integer)
+- `role` (String: max length 100, not nullable)
+- `is_admin` (Boolean, default False)
+- `created_at` (Date) <br>
+
+<b>Primary Key:</b> `id` <br>
+<b>Foreign Keys:</b>
+
+- `user_id` (Foreign Key referencing User.id, not nullable)
+- `account_id` (Foreign Key referencing Account.id, not nullable)
 
 #### Relationships <br>
 
-- user_id is a foreign key referring to User.
-- account_id is a foreign key referring to Account.
+- Each UserAccount belongs to one User (many-to-one relationship).
+- Each UserAccount belongs to one Account (many-to-one relationship).
 - This table creates a many-to-many relationship between User and Account with additional attributes like role.
 
 ### Transaction <br>
 
-<b>Attributes:</b> `transaction_id`, `transaction_type`, `amount`, `date`, `description`, `created_at`, `account_id`, `user_id` <br>
+<b>Attributes:</b>
+
+- `id` (Primary Key, Integer)
+- `type` (String: max length 100, not nullable)
+- `amount` (Numeric: precision 10, scale 2, not nullable)
+- `date` (Date)
+- `description` (String: max length 100)
+- `created_at` (Date)
+
 <b>Primary Key:</b> `transaction_id`
+<b>Foreign Keys:</b>
+
+- `category_id` (Foreign Key referencing Category.id)
+- `account_id` (Foreign Key referencing Account.id, not nullable)
+- `user_id` (Foreign Key referencing User.id, not nullable)
 
 #### Relationships
 
-- Each transaction belongs to one user.
-  - user_id is a foreign key referring to User.
-- Each transaction belongs to one account.
-  - account_id is a foreign key referring to Account.
-- Each transaction belong to one category.
-  - category_id is a foreign key referring to Category.
+- Each Transaction belongs to one User (many-to-one relationship).
+- Each Transaction belongs to one Account (many-to-one relationship).
+- Each Transaction belongs to one Category (many-to-one relationship).
 
 ### Category <br>
 
-<b>Attributes:</b> `category_id`, `category_name`, `created_at`, `user_id` <br>
-<b>Primary Key:</b> `category_id`
+<b>Attributes:</b>
+
+- `category_id` (Integer)
+- `category_name` (String: max length 100, not nullable)
+- `created_at` (Date) <br>
+
+<b>Primary Key:</b> `id`<br>
+<b>Foreign Keys:</b>
+
+- `account_id` (Foreign Key referencing Account.id, not nullable)
 
 #### Relationships
 
-- Each category belongs to one user.
-  - user_id is a foreign key referring to User.
+- Each Category belongs to one Account (many-to-one relationship).
+- Each Category can have multiple Transaction entries (one-to-many relationship).
+
+### ERD Summary
+<b>User</b><br>
+Attributes: id, name, email, password_hash, created_at<br>
+Primary Key: id<br>
+Relationships: One-to-many with UserAccount, One-to-many with Transaction<br>
+
+<b>Account</b><br>
+Attributes: id, name, type, created_at<br>
+Primary Key: id<br>
+Relationships: One-to-many with UserAccount, One-to-many with Category, One-to-many with Transaction<br>
+
+<b>Category</b><br>
+Attributes: id, name, created_at<br>
+Primary Key: id<br>
+Relationships: Many-to-one with Account, One-to-many with Transaction<br>
+
+<b>Transaction</b><br>
+Attributes: id, type, amount, date, description, created_at, user_id, account_id, category_id<br>
+Primary Key: id<br>
+Relationships: Many-to-one with User, Many-to-one with Account, Many-to-one with Category<br>
 
 <details>
    <summary>Entity Relationship Diagram: Image</summary>
