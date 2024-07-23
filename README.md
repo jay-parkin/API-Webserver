@@ -364,8 +364,8 @@ Relational database systems, like PostgreSQL, are great for handling structured 
 
 <b>Attributes:</b>
 
-- `category_id` (Integer)
-- `category_name` (String: max length 100, not nullable)
+- `id` (Integer)
+- `name` (String: max length 100, not nullable)
 - `created_at` (Date)
 
 <b>Primary Key:</b> `id`<br>
