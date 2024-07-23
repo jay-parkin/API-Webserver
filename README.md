@@ -8,7 +8,6 @@ This can lead to difficulties in maintaining shared finances, resulting in misun
 
 Personally, I've tried budgeting apps, but nothing suited what I needed, leaving my wife and me to compare expenses at the end of the week. This left holes in our budget. <br>
 I've spent many hours on the internet in search of an expense tracker that can be shared between couples so that no expense is left untracked. <br><br>
-
 I haven't yet found one that works for me... next best solution? create my own.
 
 ### Solution
@@ -171,6 +170,7 @@ pip install psycopg2
 ```
 
 <b>Purpose:</b> Psycopg2 is a PostgreSQL adapter for Python, allowing Python applications to connect to and interact with PostgreSQL databases.
+
 <b>Usage:</b> Provides the necessary interface for executing SQL commands and managing database connections with PostgreSQL.
 
 <b>[psycopg2-binary](https://pypi.org/project/psycopg2-binary/)</b>
@@ -180,6 +180,7 @@ pip install psycopg2-binary
 ```
 
 <b>Purpose:</b> Psycopg2-binary is a binary distribution of psycopg2 that includes precompiled binaries to simplify installation and avoid the need for compilation.
+
 <b>Usage:</b> Provides the same functionality as psycopg2 but simplifies the installation process by including prebuilt binaries.
 
 <br>
