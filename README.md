@@ -117,40 +117,38 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 - `user_name` (String: max length 100)
 - `user_email`(String: max length 100, unique, not nullable)
 - `password_hash`(String: max length 100, not nullable)
-- `created_at` (Date) <br>
+- `created_at` (Date)
 
-<b>Primary Key:</b> `id`
-
-#### Relationships <br>
+<b>Primary Key:</b> `id`<br>
+<b>Relationships</b>
 
 - Each User can have multiple UserAccount associations (one-to-many relationship).
 - Each User can have multiple Transaction entries (one-to-many relationship).
 
-### Account <br>
+### Account
 
 <b>Attributes:</b>
 
 - `id` (Integer)
 - `account_name` (String: max length 100, not nullable)
 - `account_type` (String: max length 100, not nullable)
-- `created_at` (Date) <br>
+- `created_at` (Date)
 
-<b>Primary Key:</b> `id`
-
-#### Relationships <br>
+<b>Primary Key:</b> `id`<br>
+<b>Relationships</b>
 
 - Each Account can have multiple UserAccount associations (one-to-many relationship).
 - Each Account can have multiple Category entries (one-to-many relationship).
 - Each Account can have multiple Transaction entries (one-to-many relationship).
 
-### UserAccount <br>
+### UserAccount
 
 <b>Attributes:</b>
 
 - `id` (Integer)
 - `role` (String: max length 100, not nullable)
 - `is_admin` (Boolean, default False)
-- `created_at` (Date) <br>
+- `created_at` (Date)
 
 <b>Primary Key:</b> `id` <br>
 <b>Foreign Keys:</b>
@@ -158,13 +156,13 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 - `user_id` (Foreign Key referencing User.id, not nullable)
 - `account_id` (Foreign Key referencing Account.id, not nullable)
 
-#### Relationships <br>
+<b>Relationships</b>
 
 - Each UserAccount belongs to one User (many-to-one relationship).
 - Each UserAccount belongs to one Account (many-to-one relationship).
 - This table creates a many-to-many relationship between User and Account with additional attributes like role.
 
-### Transaction <br>
+### Transaction
 
 <b>Attributes:</b>
 
@@ -175,38 +173,39 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 - `description` (String: max length 100)
 - `created_at` (Date)
 
-<b>Primary Key:</b> `transaction_id`
+<b>Primary Key:</b> `transaction_id`<br>
 <b>Foreign Keys:</b>
 
 - `category_id` (Foreign Key referencing Category.id)
 - `account_id` (Foreign Key referencing Account.id, not nullable)
 - `user_id` (Foreign Key referencing User.id, not nullable)
 
-#### Relationships
+<b>Relationships</b>
 
 - Each Transaction belongs to one User (many-to-one relationship).
 - Each Transaction belongs to one Account (many-to-one relationship).
 - Each Transaction belongs to one Category (many-to-one relationship).
 
-### Category <br>
+### Category
 
 <b>Attributes:</b>
 
 - `category_id` (Integer)
 - `category_name` (String: max length 100, not nullable)
-- `created_at` (Date) <br>
+- `created_at` (Date)
 
 <b>Primary Key:</b> `id`<br>
 <b>Foreign Keys:</b>
 
 - `account_id` (Foreign Key referencing Account.id, not nullable)
 
-#### Relationships
+<b>Relationships</b>
 
 - Each Category belongs to one Account (many-to-one relationship).
 - Each Category can have multiple Transaction entries (one-to-many relationship).
 
 ### ERD Summary
+
 <b>User</b><br>
 Attributes: id, name, email, password_hash, created_at<br>
 Primary Key: id<br>
