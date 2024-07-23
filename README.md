@@ -8,6 +8,7 @@ This can lead to difficulties in maintaining shared finances, resulting in misun
 
 Personally, I've tried budgeting apps, but nothing suited what I needed, leaving my wife and me to compare expenses at the end of the week. This left holes in our budget. <br>
 I've spent many hours on the internet in search of an expense tracker that can be shared between couples so that no expense is left untracked. <br><br>
+
 I haven't yet found one that works for me... next best solution? create my own.
 
 ### Solution
@@ -91,6 +92,10 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
    <img src="docs/planning/trello/planning_stage_16.JPG">
    <img src="docs/planning/trello/planning_stage_17.JPG">
 </p>
+<p align="center">Third Week</p>
+<p align="center">
+   <img src="docs/planning/trello/planning_stage_18.JPG">
+</p>
 </details>
 
 <details>
@@ -106,6 +111,135 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
    <img src="docs/planning/trello/cards/card_r08.JPG">
 </p>
 </details>
+
+## R3: Third-party Services, Packages and Dependencies
+
+<b>[SQLAlchemy](https://pypi.org/project/SQLAlchemy/)</b>
+
+```bash
+pip install SQLAlchemy
+```
+
+<b>Purpose:</b> SQLAlchemy is a SQL toolkit and Object-Relational Mapping (ORM) library for Python. It provides tools for database schema management and query construction, allowing developers to work with relational databases using Python objects rather than writing raw SQL queries.
+
+<b>Usage:</b> It is used to manage database schemas, execute queries, and perform CRUD operations. SQLAlchemy supports multiple databases like PostgreSQL, MySQL, SQLite, etc.
+
+<b>[Flask-SQLAlchemy](https://pypi.org/project/Flask-SQLAlchemy/)</b>
+
+```bash
+pip install Flask-SQLAlchemy
+```
+
+<b>Purpose:</b> Flask-SQLAlchemy is an extension for Flask that integrates SQLAlchemy with Flask applications. It provides a higher-level abstraction to manage database connections and ORM functionalities within a Flask app.
+
+<b>Usage:</b> Simplifies database management in Flask by providing easy access to SQLAlchemy features and better integration with Flask's application context.
+
+<b>[marshmallow-sqlalchemy](https://pypi.org/project/marshmallow-sqlalchemy/)</b>
+
+```bash
+pip install marshmallow-sqlalchemy
+```
+
+<b>Purpose:</b> This library extends Marshmallow, which is a library for object serialisation and deserialisation, to work specifically with SQLAlchemy ORM models. It facilitates the conversion of SQLAlchemy models to and from JSON.
+
+<b>Usage:</b> Helps in serialising SQLAlchemy models into JSON format for API responses and deserialising JSON into SQLAlchemy models for processing incoming data.
+
+<b>[flask-marshmallow](https://pypi.org/project/flask-marshmallow/)</b>
+
+```bash
+pip install flask-marshmallow
+```
+
+<b>Purpose:</b> Flask-Marshmallow integrates Marshmallow with Flask, providing a convenient way to serialise and deserialise data within Flask applications.
+
+<b>Usage:</b> It combines Flask with Marshmallow's features for handling JSON serialisation and deserialisation, often used in Flask API endpoints.
+
+<b>[Flask-Bcrypt](https://pypi.org/project/Flask-Bcrypt/)</b>
+
+```bash
+pip install Flask-Bcrypt
+```
+
+<b>Purpose:</b> Flask-Bcrypt is an extension that integrates bcrypt hashing with Flask applications. It provides a way to hash passwords securely using the bcrypt algorithm.
+
+<b>Usage:</b> Typically used for password hashing and verification, enhancing security in authentication processes.
+
+<b>[psycopg2](https://pypi.org/project/psycopg2/)</b>
+
+```bash
+pip install psycopg2
+```
+
+<b>Purpose:</b> Psycopg2 is a PostgreSQL adapter for Python, allowing Python applications to connect to and interact with PostgreSQL databases.
+<b>Usage:</b> Provides the necessary interface for executing SQL commands and managing database connections with PostgreSQL.
+
+<b>[psycopg2-binary](https://pypi.org/project/psycopg2-binary/)</b>
+
+```bash
+pip install psycopg2-binary
+```
+
+<b>Purpose:</b> Psycopg2-binary is a binary distribution of psycopg2 that includes precompiled binaries to simplify installation and avoid the need for compilation.
+<b>Usage:</b> Provides the same functionality as psycopg2 but simplifies the installation process by including prebuilt binaries.
+
+<br>
+These can be found in the `requirements.txt` and can be installed with the following command:
+
+```bash
+pip install -r requirements.txt
+```
+
+<i>Note: In most modern setups where Python 2 is no longer in use, pip should work for Python 3.x as well. However, if you're unsure or have both Python 2 and 3 installed, using pip3 ensures that you're installing packages for Python 3.x.</i>
+
+## R4: Benefits and Drawbacks of PostgreSQL
+
+### Benefits
+
+1. <b>Advanced Features</b>:
+   - <b>ACID Compliance</b>: Ensures reliable transactions and data integrity.
+   - <b>Complex Queries</b>: Supports complex queries with SQL, including sub-selects, joins, and window functions.
+   - <b>Full-Text Search</b>: Provides built-in full-text search capabilities.
+   - <b>JSON Support</b>: Allows storing and querying JSON data efficiently.
+
+2. <b>Extensibility</b>:
+   - <b>Custom Data Types</b>: You can define your own data types and functions.
+   - <b>Extensions</b>: Supports extensions like PostGIS for spatial data and others for added functionality.
+
+3. <b>Scalability</b>:
+   - <b>Large Data Volumes</b>: Handles large databases efficiently.
+   - <b>Concurrency Control</b>: Uses Multi-Version Concurrency Control (MVCC) to handle high concurrency with minimal locking.
+
+4. <b>Standards Compliance</b>:
+   - <b>SQL Compliance</b>: Adheres closely to SQL standards, making it easier to migrate from other SQL databases.
+   - <b>Data Integrity</b>: Enforces data integrity constraints such as foreign keys, unique constraints, and check constraints.
+
+5. <b>Open Source</b>:
+   - <b>Cost-Effective</b>: No licensing costs associated with the software.
+   - <b>Community Support</b>: Large community with extensive documentation, forums, and third-party tools.
+
+6. <b>Performance Tuning</b>:
+   - <b>Indexing Options</b>: Offers various indexing strategies to optimise performance.
+   - <b>Query Optimisation</b>: Advanced query planner and optimiser.
+
+### Drawbacks
+
+1. <b>Complexity</b>:
+   - <b>Configuration</b>: May require fine-tuning and complex configuration for optimal performance.
+   - <b>Learning Curve</b>: Advanced features and extensibility can lead to a steeper learning curve.
+
+2. <b>Performance Overheads</b>:
+   - <b>Write-Heavy Workloads</b>: While PostgreSQL handles read-heavy workloads well, write-heavy workloads might experience some performance overhead due to MVCC and other features.
+
+3. <b>Resource Consumption</b>:
+   - <b>Memory Usage</b>: Can be resource-intensive, especially with complex queries and large datasets.
+   - <b>Disk Space</b>: May use more disk space due to its support for extensive features and indexing.
+
+4. <b>Replication and Clustering</b>:
+   - <b>Built-in Options</b>: While PostgreSQL supports replication, clustering solutions are not as straightforward as those in some commercial databases.
+
+5. <b>Tooling and Ecosystem</b>:
+   - <b>Third-Party Tools</b>: Some advanced features might not have as rich a set of third-party tools compared to commercial databases.
+
 
 ## R6: ERD Design
 
