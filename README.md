@@ -351,6 +351,8 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
       transaction = db.relationship("Transaction", back_populates = "user")
    ```
 
+   <br>
+
 2. <b>Relationships Management:</b>
 
    - SQLAlchemy simplifies the management of relationships between tables. For instance, a `User` can have multiple `UserAccount` and `Transaction` records.
