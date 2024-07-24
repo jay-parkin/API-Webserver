@@ -14,9 +14,8 @@ I've spent many hours on the internet in search of an expense tracker that can b
 
 ### Solution
 
-The Income and Expense Tracker API is here to make managing money easier for couples. <br>
-It simplifies how you track your finances, allowing you to effortlessly record income and expenses. <br>
-It provides a user-friendly solution for tracking financial transactions, focusing on recording income and expenses while supporting the sharing of transaction accounts between partners. <br>
+The Income and Expense Tracker API is here to make managing money easier for couples. It simplifies how you track your finances, allowing you to effortlessly record income and expenses.
+It also provides a user-friendly solution for tracking financial transactions, focusing on recording income and expenses while supporting the sharing of transaction accounts between partners. <br>
 
 <i>Property Update</i> emphasises that financial management apps can save you time by automating tasks, give you real-time updates on your spending, and offer all-in-one management tools. For couples, this means both partners can stay up-to-date on their finances, which helps promote better cooperation and reduces the chances of conflicts ([Property Update](https://propertyupdate.com.au/the-ultimate-guide-to-budgeting-as-a-couple/)).
 
@@ -32,7 +31,7 @@ A standout feature is the ability to share transaction accounts with multiple us
 
 #### User Roles and Permissions
 
-The API allows for assigning different roles within shared accounts, such as owner, user, or authorised user. This role-based access control ensures each partner has the right level of access and permissions, ensuring security.
+The API allows for assigning different roles within shared accounts, such as admin, contributor, or viewer. This role-based access control ensures each partner has the right level of access and permissions, ensuring security.
 
 #### Categorisation & Organisation
 
@@ -57,6 +56,10 @@ Trello allows me to organise tasks visually and track their status through vario
 2. <b>Tracking Progress</b>
 
    - <b>Backlog:</b> This list contains all tasks that need to be done eventually but are not yet prioritised. It's future tasks that I can move to "To Do" when ready to start working on them.
+
+   - <b>README.md:</b> This will list all of the updates/changes I need to make to the readme.md file of this project. Card from here will be moved into 'Doing' once started.
+
+   - <b>API Routes/Endpoints:</b> Basing this list off work that needs to be done in Insomnia.
 
    - <b>To Do:</b> This list includes all tasks that need starting. New tasks are added here, giving a clear view of what's next.
 
@@ -98,6 +101,7 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 <p align="center">Third Week</p>
 <p align="center">
    <img src="docs/planning/trello/planning_stage_18.JPG">
+   <img src="docs/planning/trello/planning_stage_19.JPG">
 </p>
 </details>
 
@@ -188,6 +192,7 @@ pip install psycopg2-binary
 <b>Usage:</b> Provides the same functionality as psycopg2 but simplifies the installation process by including prebuilt binaries.
 
 <br>
+
 These can be found in the `requirements.txt` and can be installed with the following command:
 
 ```bash
@@ -325,7 +330,6 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    - I have defined models for `User`, `Account`, `UserAccount`, `Transaction`, and `Category` using SQLAlchemy. Each model class corresponds to a database table.
 
-   <details>
    <summary>Model Definition: User</summary>
 
    ```python
@@ -347,14 +351,10 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
       transaction = db.relationship("Transaction", back_populates = "user")
    ```
 
-   </details>
-   <br>
-
 2. <b>Relationships Management:</b>
 
    - SQLAlchemy simplifies the management of relationships between tables. For instance, a `User` can have multiple `UserAccount` and `Transaction` records.
 
-   <details>
    <summary>Foreign Relation: User</summary>
 
    ```python
@@ -363,14 +363,10 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
    transaction = db.relationship("Transaction", back_populates = "user")
    ```
 
-   </details>
-   <br>
-
 3. <b>Querying the Database:</b>
 
    - Provides an easy way to query the database. For example, fetching all accounts for a user, joining tables, and applying filters is done seamlessly with SQLAlchemy.
 
-   <details>
    <summary>DB Query: Account</summary>
 
    ```python
@@ -389,14 +385,10 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
    return accounts_schema.dump(accounts)
    ```
 
-   </details>
-   <br>
-
 4. <b>Session Management:</b>
 
    - Handles sessions to manage transactions, ensuring that operations are atomic and the database state is consistent.
 
-   <details>
    <summary>DB Query: Account</summary>
 
    ```python
@@ -409,14 +401,10 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
    return account_schema.dump(account), 201
    ```
 
-   </details>
-   <br>
-
 5. <b>Data Validation and Serialisation:</b>
 
    - With Marshmallow schemas, SQLAlchemy models are validated and serialised efficiently. This is crucial for ensuring data integrity and converting data to/from JSON.
 
-   <details>
    <summary>Data Validation: Account</summary>
 
    ```python
@@ -431,9 +419,6 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
     )
    ```
 
-   </details>
-   <br>
-
 6. CRUD Operations:
 
    - CRUD Operations refer to the basic operations for managing data in a database. They stand for `Create`, `Read`, `Update`, and `Delete`.
@@ -445,7 +430,6 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    In SQLAlchemy, these operations are typically facilitated using a session object.
 
-      <details>
    <summary>CRUD: Example</summary>
 
    ```python
@@ -468,9 +452,6 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
       db.session.delete(account)
       db.session.commit()
    ```
-
-   </details>
-   <br>
 
 SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for the definition of database schemas as Python classes, management of relationships, execution of complex queries, and efficient handling of transactions. Its integration with Marshmallow further enhances data validation and serialisation, making it an indispensable tool for developing robust and maintainable applications.
 
@@ -608,4 +589,3 @@ Relationships: Many-to-one with User, Many-to-one with Account, Many-to-one with
    <img src="docs/planning/erd/ExpenseERD 240722.jpg">
 </p>
 </details>
-```
