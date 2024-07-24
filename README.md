@@ -357,7 +357,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    - SQLAlchemy simplifies the management of relationships between tables. For instance, a `User` can have multiple `UserAccount` and `Transaction` records.
 
-   <summary>Foreign Relation: User</summary>
+   Foreign Relation: User
 
    ```python
    # Foreign relation
@@ -365,11 +365,13 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
    transaction = db.relationship("Transaction", back_populates = "user")
    ```
 
+   <br>
+
 3. <b>Querying the Database:</b>
 
    - Provides an easy way to query the database. For example, fetching all accounts for a user, joining tables, and applying filters is done seamlessly with SQLAlchemy.
 
-   <summary>DB Query: Account</summary>
+   DB Query: Account
 
    ```python
    # Create a query to fetch accounts associated with the current user
@@ -387,11 +389,13 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
    return accounts_schema.dump(accounts)
    ```
 
+   <br>
+
 4. <b>Session Management:</b>
 
    - Handles sessions to manage transactions, ensuring that operations are atomic and the database state is consistent.
 
-   <summary>DB Query: Account</summary>
+   DB Query: Account
 
    ```python
    # Add the new account and user_account to the session
@@ -403,11 +407,13 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
    return account_schema.dump(account), 201
    ```
 
+   <br>
+
 5. <b>Data Validation and Serialisation:</b>
 
    - With Marshmallow schemas, SQLAlchemy models are validated and serialised efficiently. This is crucial for ensuring data integrity and converting data to/from JSON.
 
-   <summary>Data Validation: Account</summary>
+   Data Validation: Account
 
    ```python
     # Get the data from the body of the request
@@ -421,6 +427,8 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
     )
    ```
 
+   <br>
+
 6. CRUD Operations:
 
    - CRUD Operations refer to the basic operations for managing data in a database. They stand for `Create`, `Read`, `Update`, and `Delete`.
@@ -432,7 +440,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    In SQLAlchemy, these operations are typically facilitated using a session object.
 
-   <summary>CRUD: Example</summary>
+   CRUD: Example
 
    ```python
    # Create a new account and add it to the database
@@ -454,6 +462,8 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
       db.session.delete(account)
       db.session.commit()
    ```
+
+   <br>
 
 SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for the definition of database schemas as Python classes, management of relationships, execution of complex queries, and efficient handling of transactions. Its integration with Marshmallow further enhances data validation and serialisation, making it an indispensable tool for developing robust and maintainable applications.
 
