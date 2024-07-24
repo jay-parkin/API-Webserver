@@ -330,7 +330,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    - I have defined models for `User`, `Account`, `UserAccount`, `Transaction`, and `Category` using SQLAlchemy. Each model class corresponds to a database table.
 
-   <summary>Model Definition: User</summary>
+   Model Definition: User
 
    ```python
    class User(db.Model):
