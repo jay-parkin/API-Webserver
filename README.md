@@ -87,18 +87,18 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 
 <details>
    <summary>Trello Planning: Screenshots</summary>
-   <p align="center">First Week</p>
+   <p align="center"><i>First Week</i></p>
 <p align="center">
    <img src="docs/planning/trello/planning_stage_01.JPG">
    <img src="docs/planning/trello/planning_stage_02.JPG">
 </p>
-<p align="center">Second Week</p>
+<p align="center"><i>Second Week</i></p>
 <p align="center">
    <img src="docs/planning/trello/planning_stage_15.JPG">
    <img src="docs/planning/trello/planning_stage_16.JPG">
    <img src="docs/planning/trello/planning_stage_17.JPG">
 </p>
-<p align="center">Third Week</p>
+<p align="center"><i>Third Week</i></p>
 <p align="center">
    <img src="docs/planning/trello/planning_stage_18.JPG">
    <img src="docs/planning/trello/planning_stage_19.JPG">
@@ -330,7 +330,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    - I have defined models for `User`, `Account`, `UserAccount`, `Transaction`, and `Category` using SQLAlchemy. Each model class corresponds to a database table.
 
-   Model Definition: User
+   <i>Model Definition: User</i>
 
    ```python
    class User(db.Model):
@@ -357,7 +357,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    - SQLAlchemy simplifies the management of relationships between tables. For instance, a `User` can have multiple `UserAccount` and `Transaction` records.
 
-   Foreign Relation: User
+   <i>Foreign Relation: User</i>
 
    ```python
    # Foreign relation
@@ -371,7 +371,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    - Provides an easy way to query the database. For example, fetching all accounts for a user, joining tables, and applying filters is done seamlessly with SQLAlchemy.
 
-   DB Query: Account
+   <i>DB Query: Account</i>
 
    ```python
    # Create a query to fetch accounts associated with the current user
@@ -395,7 +395,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    - Handles sessions to manage transactions, ensuring that operations are atomic and the database state is consistent.
 
-   DB Query: Account
+   <i>DB Query: Account</i>
 
    ```python
    # Add the new account and user_account to the session
@@ -413,7 +413,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    - With Marshmallow schemas, SQLAlchemy models are validated and serialised efficiently. This is crucial for ensuring data integrity and converting data to/from JSON.
 
-   Data Validation: Account
+   <i>Data Validation: Account</i>
 
    ```python
     # Get the data from the body of the request
@@ -440,7 +440,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    In SQLAlchemy, these operations are typically facilitated using a session object.
 
-   CRUD: Example
+   <i>CRUD: Example</i>
 
    ```python
    # Create a new account and add it to the database
@@ -467,7 +467,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
 SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for the definition of database schemas as Python classes, management of relationships, execution of complex queries, and efficient handling of transactions. Its integration with Marshmallow further enhances data validation and serialisation, making it an indispensable tool for developing robust and maintainable applications.
 
-## R6: Entity Relationship Diagram: Design
+## R6: Entity Relationship Diagram: Design Phase
 
 ### User
 
@@ -564,40 +564,47 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 - Each Category belongs to one Account (many-to-one relationship).
 - Each Category can have multiple Transaction entries (one-to-many relationship).
 
-### ERD Summary
+### ERD Relations and Their Normalisation
 
-<b>User</b><br>
-Attributes: id, name, email, password_hash, created_at<br>
-Primary Key: id<br>
-Relationships: One-to-many with UserAccount, One-to-many with Transaction<br>
+<b>User Table:</b>
 
-<b>Account</b><br>
-Attributes: id, name, type, created_at<br>
-Primary Key: id<br>
-Relationships: One-to-many with UserAccount, One-to-many with Category, One-to-many with Transaction<br>
+- <b>Attributes:</b> `user_id`, `user_name`, `user_email`, `password_hash`, `created_at`
+- <b>Normalisation:</b> This table is normalised up to <b>3NF</b>. All non-key attributes depend only on the primary key (id).
 
-<b>Category</b><br>
-Attributes: id, name, created_at<br>
-Primary Key: id<br>
-Relationships: Many-to-one with Account, One-to-many with Transaction<br>
+<b>Account Table:</b>
 
-<b>Transaction</b><br>
-Attributes: id, type, amount, date, description, created_at, user_id, account_id, category_id<br>
-Primary Key: id<br>
-Relationships: Many-to-one with User, Many-to-one with Account, Many-to-one with Category<br>
+- <b>Attributes:</b> `account_id`, `account_name`, `account_type`, `created_at`
+- <b>Normalisation:</b> Similar to the User table, this is in <b>3NF</b>. All attributes are dependent on the primary key and there’s no transitive dependency.
+
+<b>UserAccount Table:</b>
+
+- <b>Attributes:</b> `user_account_id`, `role`, `is_admin`, `created_at`, `user_id`, `account_id`
+- <b>Normalisation:</b> This table normalises the many-to-many relationship between User and Account. It’s in <b>3NF</b> as attributes are fully dependent on id and not on the composite key of user_id and account_id.
+
+<b>Transaction Table:</b>
+
+- <b>Attributes:</b> `transaction_id`, `transaction_type`, `amount`, `date`, `description`, `created_at`, `user_id`, `account_id`, `category_id`
+- <b>Normalisation:</b> In <b>3NF</b>. The user_id, account_id, and category_id foreign keys are used to ensure all attributes are dependent on the primary key id.
+
+<b>Category Table:</b>
+
+- <b>Attributes:</b> `category_id`, `category_name`, `created_at`, `account_id`
+- <b>Normalisation:</b> In <b>3NF</b>. The account_id foreign key ensures that name and created_at are only dependent on id.
 
 <details>
    <summary>Entity Relationship Diagram: Image</summary>
-<p align="center">Stage Design: Pitch
+<p align="center"><i>Stage Design: Pitch</i>
    <img src="docs/planning/erd/ExpenseERD 240708.jpg">
 </p>
-<p align="center">Stage Design: 01
+<p align="center"><i>Stage Design: 01</i>
    <img src="docs/planning/erd/ExpenseERD 240717.jpg">
 </p>
-<p align="center">Stage Design: 02
+<p align="center"><i>Stage Design: 02</i>
    <img src="docs/planning/erd/ExpenseERD 240720.jpg">
 </p>
-<p align="center">Stage Design: Final
+<p align="center"><i>Stage Design: Final</i>
    <img src="docs/planning/erd/ExpenseERD 240722.jpg">
 </p>
 </details>
+
+## R7: Entity Relationship Diagram: Development Phase
