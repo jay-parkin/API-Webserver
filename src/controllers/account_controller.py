@@ -30,7 +30,7 @@ def get_all_accounts():
     )
     accounts = db.session.scalars(stmt)
 
-    return accounts_schema.dump(accounts)
+    return accounts_schema.dump(accounts), 201
 
 # Allow all category to be monitored
 @account_bp.route("/<int:account_id>/categories", methods=["GET"])

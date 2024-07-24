@@ -6,15 +6,19 @@ Managing personal and shared finances can be challenging, especially for couples
 Many existing financial management tools offer comprehensive budget planning features, but they often fall short in providing a simple and efficient way to track financial transactions among multiple users. <br>
 This can lead to difficulties in maintaining shared finances, resulting in misunderstandings or conflicts over financial matters.
 
-Personally, I've tried budgeting apps, but nothing suited what I needed, leaving my wife and me to compare expenses at the end of the week. This left holes in our budget. <br>
-I've spent many hours on the internet in search of an expense tracker that can be shared between couples so that no expense is left untracked. <br><br>
-I haven't yet found one that works for me... next best solution? create my own.
+Financial stress is a significant cause of tension in relationships. Studies show that money problems are a leading cause of stress and a strong predictor of marital conflict and divorce. For instance, Relationships Australia found that financial stress is a major factor in relationship breakdowns, with money-related issues being a stronger predictor of divorce than other marital disagreements ([AusUnity](https://www.australianunity.com.au/wellbeing/money-and-finances/how-to-talk-about-money-in-a-relationship)).
+
+Personally, I've tried budgeting apps, but nothing suited what I needed, leaving my wife and me to compare expenses at the end of the week. This left holes in our budget. According to Australian Unity, financial compatibility and regular communication about money are essential for maintaining a healthy relationship. Misaligned financial goals and habits can lead to significant conflicts and even separation ([AusUnity](https://www.australianunity.com.au/wellbeing/money-and-finances/how-to-talk-about-money-in-a-relationship)).
+
+I've spent many hours on the internet in search of an expense tracker that can be shared between couples so that no expense is left untracked. The National Australia Bank reported a rise in consumer anxiety over finances, emphasising the need for effective financial management tools that cater specifically to couples' needs ([Women's Agenda](https://womensagenda.com.au/latest/is-financial-stress-affecting-your-relationship-here-are-5-things-you-can-do/)).<br>
 
 ### Solution
 
 The Income and Expense Tracker API is here to make managing money easier for couples. <br>
 It simplifies how you track your finances, allowing you to effortlessly record income and expenses. <br>
 It provides a user-friendly solution for tracking financial transactions, focusing on recording income and expenses while supporting the sharing of transaction accounts between partners. <br>
+
+<i>Property Update</i> emphasises that financial management apps can save you time by automating tasks, give you real-time updates on your spending, and offer all-in-one management tools. For couples, this means both partners can stay up-to-date on their finances, which helps promote better cooperation and reduces the chances of conflicts ([Property Update](https://propertyupdate.com.au/the-ultimate-guide-to-budgeting-as-a-couple/)).
 
 Here’s how the app will address the problem:
 
@@ -281,7 +285,196 @@ Relational Database Systems are databases that store data in a structured format
 
 Relational database systems, like PostgreSQL, are great for handling structured data while ensuring data integrity, flexibility, and strong query capabilities. They work well for a lot of different applications, but as your data grows in size and complexity, you'll need to manage and optimise them carefully.
 
-## R6: ERD Design
+## R5: Object-Relational Mapping (ORM)
+
+SQLAlchemy is a powerful ORM system, which was used in this application to interact with the database in an object-oriented way.
+
+### Features of SQLAlchemy
+
+1. <b>Declarative Mapping:</b>
+
+   - Allows defining classes mapped to database tables, using a declarative base. This makes the ORM models intuitive and easy to read.
+
+2. <b>SQL Expression Language:</b>
+
+   - Provides a way to write SQL queries using Python constructs, offering both flexibility and the ability to perform complex queries.
+
+3. <b>Session Management:</b>
+
+   - Manages transactions and connections to the database through a session system. This simplifies the process of committing changes, rolling back transactions, and querying the database.
+
+4. <b>Relationships and Joins:</b>
+
+   - Simplifies the definition of relationships between tables. Supports one-to-many, many-to-one, and many-to-many relationships, allowing for complex data models.
+
+5. <b>Schema Definition and Migration:</b>
+
+   - SQLAlchemy allows you to define your database schema using a declarative base class. This enables you to represent database tables as Python classes, making your code more readable and maintainable.
+
+6. <b>Validation and Serialisation:</b>
+
+   - Integrates with Marshmallow for data validation and serialisation, making it easy to convert between database objects and Python dictionaries/JSON
+
+### Purpose of SQLAlchemy
+
+The primary purpose of SQLAlchemy is to bridge the gap between the object-oriented programming world of Python and the relational database management system (PostgreSQL in this case). It allows developers to interact with the database using Python objects and methods instead of writing raw SQL queries.
+
+### Functionalities Provided by SQLAlchemy
+
+1. <b>Database Model Definition:</b>
+
+   - I have defined models for `User`, `Account`, `UserAccount`, `Transaction`, and `Category` using SQLAlchemy. Each model class corresponds to a database table.
+
+   <details>
+   <summary>Model Definition: User</summary>
+
+   ```python
+   class User(db.Model):
+      # Define the table name
+      __tablename__ = "users"
+
+      # Define the primary key
+      id = db.Column(db.Integer, primary_key=True)
+
+      # More attributes (columns)
+      name = db.Column(db.String(100))
+      email = db.Column(db.String(100), nullable=False, unique=True)
+      password_hash = db.Column(db.String(100), nullable=False)
+      created_at = db.Column(db.Date)
+
+      # Foreign relation
+      user_account = db.relationship("UserAccount", back_populates = "user", cascade="all, delete-orphan")
+      transaction = db.relationship("Transaction", back_populates = "user")
+   ```
+
+   </details>
+   <br>
+
+2. <b>Relationships Management:</b>
+
+   - SQLAlchemy simplifies the management of relationships between tables. For instance, a `User` can have multiple `UserAccount` and `Transaction` records.
+
+   <details>
+   <summary>Foreign Relation: User</summary>
+
+   ```python
+   # Foreign relation
+   user_account = db.relationship("UserAccount", back_populates = "user", cascade="all, delete-orphan")
+   transaction = db.relationship("Transaction", back_populates = "user")
+   ```
+
+   </details>
+   <br>
+
+3. <b>Querying the Database:</b>
+
+   - Provides an easy way to query the database. For example, fetching all accounts for a user, joining tables, and applying filters is done seamlessly with SQLAlchemy.
+
+   <details>
+   <summary>DB Query: Account</summary>
+
+   ```python
+   # Create a query to fetch accounts associated with the current user
+   stmt = (
+      db.select(Account)
+      .join(UserAccount, Account.id == UserAccount.account_id)
+      .filter(UserAccount.user_id == current_user_id)
+      .order_by(Account.created_at.desc())
+   )
+
+   # Retrieve a list of scalar values from the result
+   accounts = db.session.scalars(stmt)
+
+   # Respond
+   return accounts_schema.dump(accounts)
+   ```
+
+   </details>
+   <br>
+
+4. <b>Session Management:</b>
+
+   - Handles sessions to manage transactions, ensuring that operations are atomic and the database state is consistent.
+
+   <details>
+   <summary>DB Query: Account</summary>
+
+   ```python
+   # Add the new account and user_account to the session
+   db.session.add(account)
+   db.session.add(user_account)
+   db.session.commit()
+
+   # Respond
+   return account_schema.dump(account), 201
+   ```
+
+   </details>
+   <br>
+
+5. <b>Data Validation and Serialisation:</b>
+
+   - With Marshmallow schemas, SQLAlchemy models are validated and serialised efficiently. This is crucial for ensuring data integrity and converting data to/from JSON.
+
+   <details>
+   <summary>Data Validation: Account</summary>
+
+   ```python
+    # Get the data from the body of the request
+    body_data = account_schema.load(request.get_json())
+
+    # Create a new instance of an account
+    account = Account(
+        name = body_data.get("name"),
+        type = body_data.get("type"),
+        created_at = date.today()
+    )
+   ```
+
+   </details>
+   <br>
+
+6. CRUD Operations:
+
+   - CRUD Operations refer to the basic operations for managing data in a database. They stand for `Create`, `Read`, `Update`, and `Delete`.
+
+     1. <b>Create:</b> Adds new records to the database.
+     2. <b>Read:</b> Read/Retrieves records from the database.
+     3. <b>Update:</b> Modifies existing records in the database.
+     4. <b>Delete:</b> Removes records from the database.
+
+   In SQLAlchemy, these operations are typically facilitated using a session object.
+
+      <details>
+   <summary>CRUD: Example</summary>
+
+   ```python
+   # Create a new account and add it to the database
+   new_account = Account(name="John Doe", type="Checking", created_at=date.today())
+   db.session.add(new_account)
+   db.session.commit()
+
+   # Read/Retrieve an account by its ID
+   account_id = 1
+   account = Account.query.get(account_id)
+
+   # Update the name of an existing account
+   if account:
+      account.name = "Jane Doe"
+      db.session.commit()
+
+   # Delete an account from the database
+   if account:
+      db.session.delete(account)
+      db.session.commit()
+   ```
+
+   </details>
+   <br>
+
+SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for the definition of database schemas as Python classes, management of relationships, execution of complex queries, and efficient handling of transactions. Its integration with Marshmallow further enhances data validation and serialisation, making it an indispensable tool for developing robust and maintainable applications.
+
+## R6: Entity Relationship Diagram: Design
 
 ### User
 
@@ -415,3 +608,4 @@ Relationships: Many-to-one with User, Many-to-one with Account, Many-to-one with
    <img src="docs/planning/erd/ExpenseERD 240722.jpg">
 </p>
 </details>
+```
