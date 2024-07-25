@@ -819,7 +819,7 @@ class Category(db.Model):
 
 > Explain how to use this application’s API endpoints.
 
-<h3>User Routes:</h3>
+<h3>User Endpoints:</h3>
 
 <h3>Register a New User</h3>
 
@@ -1032,7 +1032,7 @@ class Category(db.Model):
 
 ---
 
-<h3>Account Routes:</h3>
+<h3>Account Endpoints:</h3>
 
 <h3>Create Account</h3>
 
@@ -1405,3 +1405,518 @@ This endpoint allows an admin to update the account’s name and type.
   3.  Return the list of transactions.
 
 ---
+
+<h3>User Account Endpoints</h3>
+
+<h3>Delete(Leave) User Account</h3>
+
+- HTTP Verb: `DELETE`
+- Path or Route: `/user_accounts/<int:user_account_id>`
+
+<b>Required Headers</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- None
+
+<b>Response</b>
+
+- Success (200 OK):
+
+```bash
+{
+  "message": "User Account '1' deleted successfully"
+}
+```
+
+Error (404 Not Found):
+
+```bash
+{
+  "error": "User Account with id <user_account_id> not found"
+}
+```
+
+- Error (401 Unauthorised):
+
+```bash
+{
+  "error": "You are not authorised to remove this user account"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows a user to leave a user account or for an admin to remove a user account.
+
+- <b>Process</b>
+
+  1.  Fetch the UserAccount instance from the database using user_account_id.
+  2.  Verify the user account exists.
+  3.  Retrieve the current user ID from the JWT token and fetch the current user from the database.
+  4.  Check if the current user is an admin:
+      - Admins can delete user accounts from the same account.
+      - Regular users can only delete their own account.
+  5.  If authorised, delete the user account and commit the changes.
+
+<h3>Update User Role</h3>
+
+- HTTP Verb: `PUT/PATCH`
+- Path or Route: `/user_accounts/update/<int:user_account_id>`
+
+Required Headers
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- `role`: String (optional) - The new role for the user account.
+
+```bash
+{
+  "role": "New Role"
+}
+```
+
+<b>Response</b>
+
+- Success (200 OK)
+
+```bash
+{
+  "id": 1,
+  "role": "New Role",
+  "is_admin": true
+  "user": {...}
+  "account": {...}
+}
+```
+
+- Error (404 Not Found) - User Account does not exist:
+
+```bash
+{
+  "error": "User Account does not exist"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows an admin to update the role of a user account.
+
+- Process
+  1.  Authorise the user as an admin for the specified account.
+  2.  Extract the new role from the request body.
+  3.  Fetch the UserAccount instance from the database using user_account_id.
+  4.  Verify the user account exists.
+  5.  Update the user account’s role and admin status based on the new role.
+  6.  Commit the changes to the database.
+
+---
+
+<h3>Transaction Endpoints</h3>
+
+<h3>Create Transaction</h3>
+
+- HTTP Verb: `POST`
+- Path or Route: `/transactions/create/<int:account_id>`
+
+<b>Required Headers</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- `type`: String - The type of the transaction ("expense" or "income").
+- `amount`: Float - The amount of the transaction.
+- `date`: String - The date of the transaction in YYYY-MM-DD format.
+- `description`: String - A description of the transaction.
+- `category_name`: String - The name of the category for the transaction (optional).
+
+```bash
+{
+  "type": "Expense",
+  "amount": 100.00,
+  "date": "2024-07-25",
+  "description": "Groceries",
+  "category_name": "Food"
+}
+```
+
+<b>Response</b>
+
+- Success (201 Created):
+
+```bash
+{
+  "id": 1,
+  "type": "Expense",
+  "amount": 100.0,
+  "date": "2024-07-25",
+  "description": "Groceries",
+  "created_at": "2024-07-25",
+  "user": {...},
+  "account": {...},
+  "category": "Food",
+  "category_id": 2
+}
+```
+
+- Error (404 Not Found) - Account does not exist:
+
+```bash
+{
+  "error": "Account does not exist"
+}
+```
+
+- Error (409 Conflict) - Category already exist:
+
+```bash
+{
+  "error": "Category with the same name already exists in this account"
+}
+```
+
+- Error (400 Bad Request):
+
+```bash
+{
+  "error": "Invalid date format. Date should be in YYYY-MM-DD format"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows only admins or contributors to create a new transaction for a specific account.
+
+- <b>Process</b>
+  1.  Fetch the account from the database using account_id.
+  2.  Verify the account exists.
+  3.  Extract and validate the category_name from the request body.
+      - If provided, check if the category exists for the account, and create a new one if it doesn't.
+  4.  Get the current user ID from the JWT token.
+  5.  Extract and validate the transaction details from the request body.
+  6.  Create a new Transaction instance and associate it with the account and user.
+  7.  Add and commit the new transaction to the database.
+
+<h3>Delete Transactions</h3>
+
+- HTTP Verb: `DELETE`
+- Path or Route: `/transactions/delete/<int:transaction_id>`
+
+<b>Required Headers</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- None
+
+<b>Response</b>
+
+- Success (200 OK):
+
+```bash
+{
+  "message": "Transaction '1' deleted successfully"
+}
+```
+
+- Error (404 Not Found) - Transaction does not exist:
+
+```bash
+{
+  "error": "Transactions 1 not found"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows only admins to delete a specific transaction.
+
+- <b>Process</b>
+
+  1.  Fetch the transaction from the database using transaction_id.
+  2.  Verify the transaction exists.
+  3.  Delete the transaction and commit the changes.
+
+<h3>Update Transaction</h3>
+
+- HTTP Verb: `PUT/PATCH`
+- Path or Route: `/transactions/update/<int:transaction_id>`
+
+Required Headers
+
+- Authorisation: `Bearer <jwt_token>`
+
+Required Body Data:
+
+- `type`: String - The type of the transaction (optional).
+- `amount`: Float - The amount of the transaction (optional).
+- `date`: String - The date of the transaction in YYYY-MM-DD format (optional).
+- `description`: String - A description of the transaction (optional).
+- `category_id`: Integer - The ID of the category for the transaction (optional).
+
+```bash
+{
+  "type": "Income",
+  "amount": 200.00,
+  "date": "2024-07-26",
+  "description": "Salary",
+  "category_id": 2
+}
+```
+
+<b>Response</b>
+
+- Success (200 OK):
+
+```bash
+{
+  "id": 1,
+  "type": "Income",
+  "amount": 200.0,
+  "date": "2024-07-26",
+  "description": "Salary",
+  "created_at": "2024-07-25",
+  "user": {...},
+  "account": {...},
+  "category_name": "Food",
+  "category_id": 2,
+
+}
+```
+
+- Error (400 Bad Request):
+
+```bash
+{
+  "error": "Invalid date format. Date should be in YYYY-MM-DD format"
+}
+```
+
+- Error (404 Not Found) - Category does not exist:
+
+```bash
+{
+  "error": "Category 2 not found in this account"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows admins or contributors to update the details of a specific transaction.
+
+- <b>Process</b>
+  1.  Fetch the transaction from the database using transaction_id.
+  2.  Verify the transaction exists.
+  3.  Extract and validate the transaction details from the request body.
+  4.  If a new category is specified, ensure it exists and belongs to the same account as the transaction.
+  5.  Update the transaction details and commit the changes.
+
+---
+
+<h3>Category Endpoints:</h3>
+
+<h3>Create Category</h3>
+
+- HTTP Verb: `POST`
+- Path or Route: `/categories/create/<int:account_id>`
+
+<b>Required Headers</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- `category_name`: String - The name of the category
+
+```bash
+{
+  "category_name": "Entertainment"
+}
+```
+
+<b>Response</b>
+
+- Success (201 Created):
+
+```bash
+{
+  "id": 1,
+  "name": "Entertainment",
+  "created_at": "2024-07-25",
+  "transaction": []
+}
+```
+
+- Error (400 Bad Request):
+
+```bash
+{
+  "error": "Category name is needed"
+}
+```
+
+- Error (404 Not Found) - Account does not exist:
+
+```bash
+{
+  "error": "Account does not exist"
+}
+```
+
+- Error (409 Conflict) - Category already exist:
+
+```bash
+{
+  "error": "Category with the same name already exists in this account"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows only admins or contributors to create a new category for a specific account.
+
+- <b>Process</b>
+
+  1.  Fetch the account from the database using account_id.
+  2.  Verify the account exists.
+  3.  Extract and validate the category_name from the request body.
+  4.  Check if a category with the same name already exists in the account.
+  5.  Create a new Category instance if it doesn't exist.
+  6.  Add and commit the new category to the database.
+
+<h3>Update Category</h3>
+
+- HTTP Verb: `PUT/PATCH`
+- Path or Route: `/categories/update/<int:category_id>`
+
+<b>Required Headers</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- `name`: String - The new name of the category (optional).
+
+```bash
+{
+  "name": "Leisure"
+}
+```
+
+<b>Response</b>
+
+- Success (200 OK):
+
+```bash
+{
+  "id": 1,
+  "name": "Leisure",
+  "created_at": "2024-07-25",
+  "transaction": [...]
+}
+```
+
+- Error (404 Not Found) - Category does not exist:
+
+```bash
+{
+  "error": "Category 1 not found"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows admins or contributors to update the details of a specific category.
+
+- <b>Process</b>
+
+  1.  Fetch the category from the database using category_id.
+  2.  Verify the category exists.
+  3.  Extract and validate the category details from the request body.
+  4.  Update the category details and commit the changes.
+
+<h3>Delete Category</h3>
+
+- HTTP Verb: `DELETE`
+- Path or Route: `/categories/delete/<int:category_id>`
+
+<b>Required Headers</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- None
+
+```bash
+{
+  "message": "Category '1' deleted successfully"
+}
+```
+
+- Error (404 Not Found) - Category does not exist:
+
+```bash
+{
+  "error": "Category 1 not found"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows only admins to delete a specific category.
+
+- <b>Process</b>
+
+  1.  Fetch the category from the database using category_id.
+  2.  Verify the category exists.
+  3.  Delete the category and commit the changes.
+
+<h3>Get Category by ID</h3>
+
+- HTTP Verb: `GET`
+- Path or Route: `/categories/<int:category_id>`
+
+<b>Required Headers</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- None
+
+<b>Response</b>
+
+- Success (200 OK)
+
+```bash
+{
+  "id": 1,
+  "name": "Groceries",
+  "created_at": "2024-07-25",
+  "transaction": [...]
+}
+```
+
+- Error (404 Not Found) - Category does not exist:
+
+```bash
+{
+  "error": "Category 1 not found"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows users with Admin, Contributor, or Viewer roles to fetch a category by its ID.
+
+- <b>Process</b>
+
+1. Fetch the category from the database using category_id.
+2. Verify the category exists.

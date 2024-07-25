@@ -145,8 +145,8 @@ def update_transaction(transaction_id):
     if category:
         # Check if the category's account_id matches the transaction's account_id
         if category.account_id != transaction.account_id:
-            return {"error": f"Category {category_id} not found in this account"}, 403
-
+            return {"error": f"Category {category_id} not found in this account"}, 404
+        
     # Update transaction
     transaction.type = body_data.get("type", transaction.type),
     transaction.amount = float(body_data.get("amount", transaction.amount)),
