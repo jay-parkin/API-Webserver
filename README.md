@@ -2,6 +2,8 @@
 
 ## R1: Problem Statement
 
+> Explain the problem that this app will solve, and explain how this app solves or addresses the problem.
+
 Managing personal and shared finances can be challenging, especially for couples who need to keep track of joint income and expenses. <br>
 Many existing financial management tools offer comprehensive budget planning features, but they often fall short in providing a simple and efficient way to track financial transactions among multiple users. <br>
 This can lead to difficulties in maintaining shared finances, resulting in misunderstandings or conflicts over financial matters.
@@ -44,6 +46,8 @@ With multiple users able to interact with the same account in real-time, the API
 The Income and Expense Tracker API addresses the common challenges couples face in managing their joint finances. By focusing on simplicity, shared account functionality, user roles, categorisation, and real-time collaboration, the API provides a solution for financial organisation, and cooperation. This approach makes it easier for couples to manage their income and expenses, reducing the financial misunderstandings.
 
 ## R2: Task Allocation and Tracking
+
+> Describe the way tasks are allocated and tracked in your project.
 
 To ensure thorough task management and progress tracking, I use [Atlassian's Trello](https://trello.com/home). <br>
 Trello allows me to organise tasks visually and track their status through various stages of completion.
@@ -120,6 +124,8 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 </details>
 
 ## R3: Third-party Services, Packages and Dependencies
+
+> List and explain the third-party services, packages and dependencies used in this app.
 
 <b>[SQLAlchemy](https://pypi.org/project/SQLAlchemy/)</b>
 
@@ -202,6 +208,8 @@ pip install -r requirements.txt
 <i>Note: In most modern setups where Python 2 is no longer in use, pip should work for Python 3.x as well. However, if you're unsure or have both Python 2 and 3 installed, using pip3 ensures that you're installing packages for Python 3.x.</i>
 
 ## R4: Benefits and Drawbacks of PostgreSQL
+
+> Explain the benefits and drawbacks of this app’s underlying database system.
 
 <b>Overview of Relational Database Systems (RDBMS)</b><br>
 Relational Database Systems are databases that store data in a structured format, using rows and columns. They are based on the relational model introduced by E.F. Codd in the 1970s. Data is organised into tables, and relationships between data items are managed through foreign keys and indexes. SQL (Structured Query Language) is the standard language used to interact with RDBMS.
@@ -291,6 +299,8 @@ Relational Database Systems are databases that store data in a structured format
 Relational database systems, like PostgreSQL, are great for handling structured data while ensuring data integrity, flexibility, and strong query capabilities. They work well for a lot of different applications, but as your data grows in size and complexity, you'll need to manage and optimise them carefully.
 
 ## R5: Object-Relational Mapping (ORM)
+
+> Explain the features, purpose and functionalities of the object-relational mapping system (ORM) used in this app.
 
 SQLAlchemy is a powerful ORM system, which was used in this application to interact with the database in an object-oriented way.
 
@@ -469,6 +479,8 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 
 ## R6: Entity Relationship Diagram: Design Phase
 
+> Design an entity relationship diagram (ERD) for this app’s database, and explain how the relations between the diagrammed models will aid the database design.
+
 ### User
 
 <b>Attributes</b>
@@ -608,6 +620,8 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 </details>
 
 ## R7: Entity Relationship Diagram: Development Phase
+
+> Explain the implemented models and their relationships, including how the relationships aid the database implementation.
 
 ### User Model (user.py)
 
@@ -800,3 +814,584 @@ class Category(db.Model):
 
 - <b>Attribute Names:</b> My final implementation uses name, email, password_hash while the ERD uses user_name, user_email.
 - <b>Normalisation:</b> Both the ERD and my implementation maintain normalisation, ensuring no redundancy and proper relationship management.
+
+## R8: API Endpoints Documentation
+
+> Explain how to use this application’s API endpoints.
+
+### User Routes
+
+#### Register a New User
+
+- HTTP Verb: `POST`
+- Path or Route: `/users/register`
+
+<b>Required Body Data</b>
+
+- `name`: String - The name of the user.
+- `email`: String - The user's email address (must be unique).
+- `password_hash`: String - The user's password (will be hashed before storing).
+
+```bash
+{
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "password_hash": "Password123"
+}
+```
+
+<b>Response</b>
+
+- Success (201 Created)
+
+```bash
+{
+    "id": 1,
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "created_at": "2024-07-25"
+}
+```
+
+- Error (409 Conflict - Email already in use)
+
+```bash
+{
+    "error": "Email address already in use"
+}
+```
+
+- Error (409 Conflict - Required field missing)
+
+```bash
+{
+    "error": "The column <column_name> is required"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint is used to create a new user in the system.
+- The request body should include the name, email, and password_hash fields. The email must be unique, and the password_hash is hashed using bcrypt for security.
+
+- <b>Process</b>
+
+  1.  Extract data from the request body.
+  2.  Create a new User object with the provided data.
+  3.  Hash the password and assign it to the user object.
+  4.  Add the user to the database and commit the transaction.
+
+### Login User
+
+- HTTP Verb: `POST`
+- Path or Route: `/users/login`
+
+<b>Required Body Data</b>
+
+- `email`: String - The user's email address.
+- `password_hash`: String - The user's password.
+
+```bash
+{
+    "email": "john.doe@example.com",
+    "password_hash": "Password123"
+}
+```
+
+<b>Response</b>
+
+- Success (200 OK):
+
+```bash
+{
+    "email": "john.doe@example.com",
+    "token": "<jwt_token>"
+}
+```
+
+- Error (401 Unauthorised - Invalid credentials):
+
+```bash
+{
+    "error": "Invalid email or password"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows users to log in by providing their email and password_hash.
+
+- <b>Process</b>
+
+  1. Retrieve user details from the database based on the provided email.
+  2. Check if the provided password matches the stored password hash.
+  3. If the credentials are valid, generate a JWT token for the user.
+
+### Update User
+
+- HTTP Verb: `PUT/PATCH`
+- Path or Route: `/users/update`
+
+<b>Required Header</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- `name`: String (optional) - The new name of the user.
+- `password_hash`: String (optional) - The new password (will be hashed before storing).
+
+```bash
+{
+    "name": "Jane Doe",
+    "password_hash": "NewPassword123"
+}
+```
+
+<b>Response</b>
+
+- Success (200 OK):
+
+```bash
+{
+    "id": 1,
+    "name": "Jane Doe",
+    "email": "john.doe@example.com",
+    "created_at": "2024-07-25"
+}
+```
+
+- Error (404 Not Found) - User does not exist:
+
+```bash
+{
+    "error": "User does not exist"
+}
+```
+
+<b>Explanation</b>
+
+-This endpoint allows users to update their own information.
+
+- <b>Process</b>
+
+  1.  Extract user data from the request body (name, password_hash).
+  2.  Fetch the current user from the database using the JWT token for authentication.
+  3.  Update the user’s details with the provided data.
+  4.  Commit the changes to the database.
+
+### Delete User
+
+- HTTP Verb: `DELETE`
+- Path or Route: `/users/delete`
+
+<b>Required Header</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- None
+
+<b>Response</b>
+
+- Success (200 OK):
+
+```bash
+{
+    "message": "User with id 1 deleted"
+}
+```
+
+- Error (404 Not Found) - User does not exist:
+
+```bash
+{
+    "error": "User does not exist"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows users to delete their own account.
+
+- <b>Process</b>
+
+  1.  Retrieve the user’s ID from the JWT token.
+  2.  Fetch the user from the database.
+  3.  If the user exists, delete the user record from the database.
+  4.  Commit the changes.
+
+---
+
+### Account Routes
+
+#### Create Account
+
+- HTTP Verb: `POST`
+- Path or Route: `/accounts/create`
+
+<b>Required Header</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Request Body</b>
+
+```bash
+{
+  "name": "New Account",
+  "type": "Savings"
+}
+```
+
+<b>Response</b>
+
+- Success (201 Created)
+
+```bash
+{
+  "id": 1,
+  "name": "New Account",
+  "type": "Savings",
+  "created_at": "2024-07-25",
+  "user_account": [...],
+  "transaction": []
+}
+```
+
+- Error (401 Unauthorised) - If the user is not authenticated:
+
+```bash
+{
+  "error": "Authentication required"
+}
+```
+
+- Error (404 Not Found) - User does not exist:
+
+```bash
+{
+  "error": "User does not exist"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows the user to create a new account.
+
+- <b>Process</b>
+  1.  Retrieve the current user ID from the JWT token.
+  2.  Extract data from the request body.
+  3.  Create a new Account object and a UserAccount linking the user as an admin.
+  4.  Add and commit the new account to the database.
+
+#### Join Account
+
+- HTTP Verb: `POST`
+- Path or Route: `/accounts/join/<int:account_id>`
+
+<b>Required Headers</b>
+Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- None
+
+<b>Response</b>
+
+- Success (201 Created):
+
+```bash
+{
+  "id": 2,
+  "name": "Joined Account",
+  "type": "Savings",
+  "created_at": "2024-07-25",
+  "user_account": [...],
+  "transaction": [...],
+}
+```
+
+- Error (404 Not Found) - Account does not exist:
+
+```bash
+{
+  "error": "Account with id <account_id> not found"
+}
+
+```
+
+- Error (400 Bad Request):
+
+```bash
+{
+  "error": "You are already a member of this account"
+}
+```
+
+<b>Explanation</b>
+This endpoint allows the user to join an existing account as a viewer.
+
+- <b>Process</b>
+  1.  Retrieve the current user ID from the JWT token.
+  2.  Check if the account exists and if the user is already a member.
+  3.  Create a new UserAccount linking the user as a viewer.
+  4.  Add and commit the new user account to the database.
+
+#### Update Account
+
+- HTTP Verb: `PUT/PATCH`
+- Path or Route: `/accounts/update/<int:account_id>`
+
+<b>Required Headers</b>
+
+- Authorisation: Bearer <jwt_token>
+
+<b>Required Body Data</b>
+
+- name: String (optional) - The new name of the account.
+- type: String (optional) - The new type of the account.
+
+```bash
+{
+  "name": "Updated Account Name",
+  "type": "Updated Type"
+}
+```
+
+<b>Response</b>
+
+- Success (200 OK):
+
+```bash
+{
+  "id": 1,
+  "name": "Updated Account Name",
+  "type": "Updated Type",
+  "created_at": "2024-07-25",
+  "user_account": [...],
+  "transaction": [...]
+}
+```
+
+- Error (404 Not Found) - Account does not exist:
+
+```bash
+{
+  "error": "Account does not exist"
+}
+```
+
+<b>Explanation</b>
+This endpoint allows an admin to update the account’s name and type.
+
+- <b>Process</b>
+
+  1.  Authorise the user as an admin for the specified account.
+  2.  Extract data from the request body.
+  3.  Update the account’s details with the provided data.
+  4.  Commit the changes to the database.
+
+#### Delete Account
+
+- HTTP Verb: `DELETE`
+- Path or Route: `/accounts/delete/<int:account_id>`
+
+<b>Required Headers</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- None
+
+<b>Response</b>
+
+- Success (200 OK):
+
+```bash
+{
+  "message": "Account '1' deleted successfully"
+}
+```
+
+- Error (404 Not Found) - Account does not exist:
+
+```bash
+{
+  "error": "Account does not exist"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint allows an admin to delete an account.
+
+- <b>Process</b>
+  1.  Authorise the user as an admin for the specified account.
+  2.  Fetch the account from the database.
+  3.  Delete the account and commit the changes.
+
+#### Get All Accounts
+
+- HTTP Verb: `GET`
+- Path or Route: `/accounts/all`
+
+<b>Required Header</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- None
+
+<b>Response</b>
+
+- Success (200 OK) - Returns a list of accounts associated with the current user:
+
+```bash
+[
+  {
+    "id": 1,
+    "name": "Account Name",
+    "type": "Account Type",
+    "created_at": "2024-07-25",
+    "user_account": [...]
+  },
+  ...
+]
+```
+
+- Error (401 Unauthorised) - If the user is not authenticated:
+
+```bash
+{
+  "error": "Authentication required"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint fetches all accounts associated with the currently authenticated user.
+
+- <b>Process</b>
+  1.  Retrieve the user ID from the JWT token.
+  2.  Query the Account table to find all accounts linked to this user via the UserAccount table.
+  3.  Return the list of accounts.
+
+#### Get All Categories
+
+- HTTP Verb: `GET`
+- Path or Route: `/accounts/<int:account_id>/categories`
+
+<b>Required Headers</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- None
+
+<b>Response</b>
+
+- Success (200 OK):
+
+```bash
+[
+  {
+   "id": 1,
+   "name": "Category Name",
+   "created_at": "2024-07-23",
+	"transaction": [...]
+  },
+  ...
+]
+```
+
+- Error (404 Not Found) - No Account:
+
+```bash
+{
+  "error": "Account not found"
+}
+```
+
+- Error (404 Not Found) - No categories:
+
+```bash
+{
+  "error": "This account has no categories"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint fetches all categories associated with a specific account.
+
+- <b>Process</b>
+
+  1.  Authorise the user for the specified account.
+  2.  Query the Category table to find all categories linked to the account.
+  3.  Return the list of categories.
+
+#### Get All Transactions
+
+- HTTP Verb: `GET`
+- Path or Route: `/accounts/<int:account_id>/transactions`
+
+<b>Required Headers</b>
+
+- Authorisation: `Bearer <jwt_token>`
+
+<b>Required Body Data</b>
+
+- None
+
+<b>Response</b>
+
+- Success (200 OK)
+
+```bash
+[
+  {
+    "id": 1,
+    "type": "Transaction Type",
+    "amount": 100.00,
+    "date": "2024-07-25",
+    "description": "Transaction Description",
+    "created_at": "2024-07-25",
+    "user_id": {...},
+    "account": {...},
+    "category": {...}
+  },
+  ...
+]
+```
+
+- Error (404 Not Found) - No Account:
+
+```bash
+{
+  "error": "Account not found"
+}
+```
+
+- Error (404 Not Found) - No transactions:
+
+```bash
+{
+  "error": "This account has no transactions"
+}
+```
+
+<b>Explanation</b>
+
+- This endpoint fetches all transactions associated with a specific account.
+
+- <b>Process</b>
+
+  1.  Authorise the user for the specified account.
+  2.  Query the Transaction table to find all transactions linked to the account.
+  3.  Return the list of transactions.
+
+---
