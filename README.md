@@ -819,12 +819,16 @@ class Category(db.Model):
 
 > Explain how to use this application’s API endpoints.
 
-### User Routes
+<h3>User Routes:</h3>
 
-#### Register a New User
+<h3>Register a New User</h3>
 
 - HTTP Verb: `POST`
 - Path or Route: `/users/register`
+
+<b>Required Header</b>
+
+- None
 
 <b>Required Body Data</b>
 
@@ -881,10 +885,14 @@ class Category(db.Model):
   3.  Hash the password and assign it to the user object.
   4.  Add the user to the database and commit the transaction.
 
-### Login User
+<h3>Login User</h3>
 
 - HTTP Verb: `POST`
 - Path or Route: `/users/login`
+
+<b>Required Header</b>
+
+- None
 
 <b>Required Body Data</b>
 
@@ -927,7 +935,7 @@ class Category(db.Model):
   2. Check if the provided password matches the stored password hash.
   3. If the credentials are valid, generate a JWT token for the user.
 
-### Update User
+<h3>Update User</h3>
 
 - HTTP Verb: `PUT/PATCH`
 - Path or Route: `/users/update`
@@ -971,7 +979,7 @@ class Category(db.Model):
 
 <b>Explanation</b>
 
--This endpoint allows users to update their own information.
+- This endpoint allows users to update their own information.
 
 - <b>Process</b>
 
@@ -980,7 +988,7 @@ class Category(db.Model):
   3.  Update the user’s details with the provided data.
   4.  Commit the changes to the database.
 
-### Delete User
+<h3>Delete User</h3>
 
 - HTTP Verb: `DELETE`
 - Path or Route: `/users/delete`
@@ -1024,9 +1032,9 @@ class Category(db.Model):
 
 ---
 
-### Account Routes
+<h3>Account Routes:</h3>
 
-#### Create Account
+<h3>Create Account</h3>
 
 - HTTP Verb: `POST`
 - Path or Route: `/accounts/create`
@@ -1085,12 +1093,13 @@ class Category(db.Model):
   3.  Create a new Account object and a UserAccount linking the user as an admin.
   4.  Add and commit the new account to the database.
 
-#### Join Account
+<h3>Join Account</h3>
 
 - HTTP Verb: `POST`
 - Path or Route: `/accounts/join/<int:account_id>`
 
 <b>Required Headers</b>
+
 Authorisation: `Bearer <jwt_token>`
 
 <b>Required Body Data</b>
@@ -1138,7 +1147,7 @@ This endpoint allows the user to join an existing account as a viewer.
   3.  Create a new UserAccount linking the user as a viewer.
   4.  Add and commit the new user account to the database.
 
-#### Update Account
+<h3>Update Account</h3>
 
 - HTTP Verb: `PUT/PATCH`
 - Path or Route: `/accounts/update/<int:account_id>`
@@ -1183,6 +1192,7 @@ This endpoint allows the user to join an existing account as a viewer.
 ```
 
 <b>Explanation</b>
+
 This endpoint allows an admin to update the account’s name and type.
 
 - <b>Process</b>
@@ -1192,7 +1202,7 @@ This endpoint allows an admin to update the account’s name and type.
   3.  Update the account’s details with the provided data.
   4.  Commit the changes to the database.
 
-#### Delete Account
+<h3>Delete Account</h3>
 
 - HTTP Verb: `DELETE`
 - Path or Route: `/accounts/delete/<int:account_id>`
@@ -1232,7 +1242,7 @@ This endpoint allows an admin to update the account’s name and type.
   2.  Fetch the account from the database.
   3.  Delete the account and commit the changes.
 
-#### Get All Accounts
+<h3>Get All Accounts</h3>
 
 - HTTP Verb: `GET`
 - Path or Route: `/accounts/all`
@@ -1279,7 +1289,7 @@ This endpoint allows an admin to update the account’s name and type.
   2.  Query the Account table to find all accounts linked to this user via the UserAccount table.
   3.  Return the list of accounts.
 
-#### Get All Categories
+<h3>Get All Categories</h3>
 
 - HTTP Verb: `GET`
 - Path or Route: `/accounts/<int:account_id>/categories`
@@ -1334,7 +1344,7 @@ This endpoint allows an admin to update the account’s name and type.
   2.  Query the Category table to find all categories linked to the account.
   3.  Return the list of categories.
 
-#### Get All Transactions
+<h3>Get All Transactions</h3>
 
 - HTTP Verb: `GET`
 - Path or Route: `/accounts/<int:account_id>/transactions`
