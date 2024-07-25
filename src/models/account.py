@@ -20,6 +20,7 @@ class Account(db.Model):
     type = db.Column(db.String(100), nullable=False)
     created_at = db.Column(db.Date)
 
+    # Foreign relation
     user_account = db.relationship("UserAccount", cascade="all, delete-orphan", back_populates="account")
     category = db.relationship("Category", cascade="all, delete-orphan", back_populates="account")
     transaction = db.relationship("Transaction", cascade="all, delete-orphan", back_populates="account")

@@ -234,45 +234,45 @@ Relational Database Systems are databases that store data in a structured format
 
 ### Benefits
 
-1. <b>Advanced Features</b>:
+1. <b>Advanced Features</b>
 
-   - <b>ACID Compliance</b>: Ensures reliable transactions and data integrity.
-   - <b>Complex Queries</b>: Supports complex queries with SQL, including sub-selects, joins, and window functions.
-   - <b>Full-Text Search</b>: Provides built-in full-text search capabilities.
-   - <b>JSON Support</b>: Allows storing and querying JSON data efficiently.
+   - <b>ACID Compliance:</b> Ensures reliable transactions and data integrity.
+   - <b>Complex Queries:</b> Supports complex queries with SQL, including sub-selects, joins, and window functions.
+   - <b>Full-Text Search:</b> Provides built-in full-text search capabilities.
+   - <b>JSON Support:</b> Allows storing and querying JSON data efficiently.
 
-2. <b>Extensibility</b>:
+2. <b>Extensibility</b>
 
-   - <b>Custom Data Types</b>: You can define your own data types and functions.
-   - <b>Extensions</b>: Supports extensions like PostGIS for spatial data and others for added functionality.
+   - <b>Custom Data Types:</b> You can define your own data types and functions.
+   - <b>Extensions:</b> Supports extensions like PostGIS for spatial data and others for added functionality.
 
-3. <b>Scalability</b>:
+3. <b>Scalability</b>
 
-   - <b>Large Data Volumes</b>: Handles large databases efficiently.
-   - <b>Concurrency Control</b>: Uses Multi-Version Concurrency Control (MVCC) to handle high concurrency with minimal locking.
+   - <b>Large Data Volumes:</b> Handles large databases efficiently.
+   - <b>Concurrency Control:</b> Uses Multi-Version Concurrency Control (MVCC) to handle high concurrency with minimal locking.
 
-4. <b>Standards Compliance</b>:
+4. <b>Standards Compliance</b>
 
-   - <b>SQL Compliance</b>: Adheres closely to SQL standards, making it easier to migrate from other SQL databases.
-   - <b>Data Integrity</b>: Enforces data integrity constraints such as foreign keys, unique constraints, and check constraints.
+   - <b>SQL Compliance:</b> Adheres closely to SQL standards, making it easier to migrate from other SQL databases.
+   - <b>Data Integrity:</b> Enforces data integrity constraints such as foreign keys, unique constraints, and check constraints.
 
-5. <b>Open Source</b>:
+5. <b>Open Source</b>
 
-   - <b>Cost-Effective</b>: No licensing costs associated with the software.
-   - <b>Community Support</b>: Large community with extensive documentation, forums, and third-party tools.
+   - <b>Cost-Effective:</b> No licensing costs associated with the software.
+   - <b>Community Support:</b> Large community with extensive documentation, forums, and third-party tools.
 
-6. <b>Performance Tuning</b>:
-   - <b>Indexing Options</b>: Offers various indexing strategies to optimise performance.
-   - <b>Query Optimisation</b>: Advanced query planner and optimiser.
+6. <b>Performance Tuning</b>
+   - <b>Indexing Options:</b> Offers various indexing strategies to optimise performance.
+   - <b>Query Optimisation:</b> Advanced query planner and optimiser.
 
 ### Drawbacks
 
-1. <b>Complexity</b>:
+1. <b>Complexity</b>
 
    - <b>Configuration</b>: May require fine-tuning and complex configuration for optimal performance.
    - <b>Learning Curve</b>: Advanced features and extensibility can lead to a steeper learning curve.
 
-2. <b>Performance Overheads</b>:
+2. <b>Performance Overheads</b>
 
    - <b>Write-Heavy Workloads</b>: While PostgreSQL handles read-heavy workloads well, write-heavy workloads might experience some performance overhead due to MVCC and other features.
 
@@ -281,11 +281,11 @@ Relational Database Systems are databases that store data in a structured format
    - <b>Memory Usage</b>: Can be resource-intensive, especially with complex queries and large datasets.
    - <b>Disk Space</b>: May use more disk space due to its support for extensive features and indexing.
 
-4. <b>Replication and Clustering</b>:
+4. <b>Replication and Clustering</b>
 
    - <b>Built-in Options</b>: While PostgreSQL supports replication, clustering solutions are not as straightforward as those in some commercial databases.
 
-5. <b>Tooling and Ecosystem</b>:
+5. <b>Tooling and Ecosystem</b>
    - <b>Third-Party Tools</b>: Some advanced features might not have as rich a set of third-party tools compared to commercial databases.
 
 Relational database systems, like PostgreSQL, are great for handling structured data while ensuring data integrity, flexibility, and strong query capabilities. They work well for a lot of different applications, but as your data grows in size and complexity, you'll need to manage and optimise them carefully.
@@ -296,27 +296,27 @@ SQLAlchemy is a powerful ORM system, which was used in this application to inter
 
 ### Features of SQLAlchemy
 
-1. <b>Declarative Mapping:</b>
+1. <b>Declarative Mapping</b>
 
    - Allows defining classes mapped to database tables, using a declarative base. This makes the ORM models intuitive and easy to read.
 
-2. <b>SQL Expression Language:</b>
+2. <b>SQL Expression Language</b>
 
    - Provides a way to write SQL queries using Python constructs, offering both flexibility and the ability to perform complex queries.
 
-3. <b>Session Management:</b>
+3. <b>Session Management</b>
 
    - Manages transactions and connections to the database through a session system. This simplifies the process of committing changes, rolling back transactions, and querying the database.
 
-4. <b>Relationships and Joins:</b>
+4. <b>Relationships and Joins</b>
 
    - Simplifies the definition of relationships between tables. Supports one-to-many, many-to-one, and many-to-many relationships, allowing for complex data models.
 
-5. <b>Schema Definition and Migration:</b>
+5. <b>Schema Definition and Migration</b>
 
    - SQLAlchemy allows you to define your database schema using a declarative base class. This enables you to represent database tables as Python classes, making your code more readable and maintainable.
 
-6. <b>Validation and Serialisation:</b>
+6. <b>Validation and Serialisation</b>
 
    - Integrates with Marshmallow for data validation and serialisation, making it easy to convert between database objects and Python dictionaries/JSON
 
@@ -326,7 +326,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
 ### Functionalities Provided by SQLAlchemy
 
-1. <b>Database Model Definition:</b>
+1. <b>Database Model Definition</b>
 
    - I have defined models for `User`, `Account`, `UserAccount`, `Transaction`, and `Category` using SQLAlchemy. Each model class corresponds to a database table.
 
@@ -353,7 +353,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    <br>
 
-2. <b>Relationships Management:</b>
+2. <b>Relationships Management</b>
 
    - SQLAlchemy simplifies the management of relationships between tables. For instance, a `User` can have multiple `UserAccount` and `Transaction` records.
 
@@ -367,7 +367,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    <br>
 
-3. <b>Querying the Database:</b>
+3. <b>Querying the Database</b>
 
    - Provides an easy way to query the database. For example, fetching all accounts for a user, joining tables, and applying filters is done seamlessly with SQLAlchemy.
 
@@ -391,7 +391,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    <br>
 
-4. <b>Session Management:</b>
+4. <b>Session Management</b>
 
    - Handles sessions to manage transactions, ensuring that operations are atomic and the database state is consistent.
 
@@ -409,7 +409,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    <br>
 
-5. <b>Data Validation and Serialisation:</b>
+5. <b>Data Validation and Serialisation</b>
 
    - With Marshmallow schemas, SQLAlchemy models are validated and serialised efficiently. This is crucial for ensuring data integrity and converting data to/from JSON.
 
@@ -429,7 +429,7 @@ The primary purpose of SQLAlchemy is to bridge the gap between the object-orient
 
    <br>
 
-6. CRUD Operations:
+6. <b>CRUD Operations</b>
 
    - CRUD Operations refer to the basic operations for managing data in a database. They stand for `Create`, `Read`, `Update`, and `Delete`.
 
@@ -471,7 +471,7 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 
 ### User
 
-<b>Attributes:</b>
+<b>Attributes</b>
 
 - `id` (Integer)
 - `user_name` (String: max length 100)
@@ -487,7 +487,7 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 
 ### Account
 
-<b>Attributes:</b>
+<b>Attributes</b>
 
 - `id` (Integer)
 - `account_name` (String: max length 100, not nullable)
@@ -503,7 +503,7 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 
 ### UserAccount
 
-<b>Attributes:</b>
+<b>Attributes</b>
 
 - `id` (Integer)
 - `role` (String: max length 100, not nullable)
@@ -511,7 +511,7 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 - `created_at` (Date)
 
 <b>Primary Key:</b> `id` <br>
-<b>Foreign Keys:</b>
+<b>Foreign Keys</b>
 
 - `user_id` (Foreign Key referencing User.id, not nullable)
 - `account_id` (Foreign Key referencing Account.id, not nullable)
@@ -524,7 +524,7 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 
 ### Transaction
 
-<b>Attributes:</b>
+<b>Attributes</b>
 
 - `id` (Primary Key, Integer)
 - `type` (String: max length 100, not nullable)
@@ -534,7 +534,7 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 - `created_at` (Date)
 
 <b>Primary Key:</b> `transaction_id`<br>
-<b>Foreign Keys:</b>
+<b>Foreign Keys</b>
 
 - `category_id` (Foreign Key referencing Category.id)
 - `account_id` (Foreign Key referencing Account.id, not nullable)
@@ -548,14 +548,14 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 
 ### Category
 
-<b>Attributes:</b>
+<b>Attributes</b>
 
 - `id` (Integer)
 - `name` (String: max length 100, not nullable)
 - `created_at` (Date)
 
 <b>Primary Key:</b> `id`<br>
-<b>Foreign Keys:</b>
+<b>Foreign Keys</b>
 
 - `account_id` (Foreign Key referencing Account.id, not nullable)
 
@@ -566,27 +566,27 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 
 ### ERD Relations and Their Normalisation
 
-<b>User Table:</b>
+<b>User Table</b>
 
 - <b>Attributes:</b> `user_id`, `user_name`, `user_email`, `password_hash`, `created_at`
 - <b>Normalisation:</b> This table is normalised up to <b>3NF</b>. All non-key attributes depend only on the primary key (id).
 
-<b>Account Table:</b>
+<b>Account Table</b>
 
 - <b>Attributes:</b> `account_id`, `account_name`, `account_type`, `created_at`
 - <b>Normalisation:</b> Similar to the User table, this is in <b>3NF</b>. All attributes are dependent on the primary key and there’s no transitive dependency.
 
-<b>UserAccount Table:</b>
+<b>UserAccount Table</b>
 
 - <b>Attributes:</b> `user_account_id`, `role`, `is_admin`, `created_at`, `user_id`, `account_id`
 - <b>Normalisation:</b> This table normalises the many-to-many relationship between User and Account. It’s in <b>3NF</b> as attributes are fully dependent on id and not on the composite key of user_id and account_id.
 
-<b>Transaction Table:</b>
+<b>Transaction Table</b>
 
 - <b>Attributes:</b> `transaction_id`, `transaction_type`, `amount`, `date`, `description`, `created_at`, `user_id`, `account_id`, `category_id`
 - <b>Normalisation:</b> In <b>3NF</b>. The user_id, account_id, and category_id foreign keys are used to ensure all attributes are dependent on the primary key id.
 
-<b>Category Table:</b>
+<b>Category Table</b>
 
 - <b>Attributes:</b> `category_id`, `category_name`, `created_at`, `account_id`
 - <b>Normalisation:</b> In <b>3NF</b>. The account_id foreign key ensures that name and created_at are only dependent on id.
@@ -608,3 +608,195 @@ SQLAlchemy in an application serves as a powerful and flexible ORM, allowing for
 </details>
 
 ## R7: Entity Relationship Diagram: Development Phase
+
+### User Model (user.py)
+
+```python
+class User(db.Model):
+   # Define the table name
+   __tablename__ = "users"
+
+   # Define the primary key
+   id = db.Column(db.Integer, primary_key=True)
+
+   # More attributes (columns)
+   name = db.Column(db.String(100))
+   email = db.Column(db.String(100), nullable=False, unique=True)
+   password_hash = db.Column(db.String(100), nullable=False)
+   created_at = db.Column(db.Date)
+
+   # Foreign relation
+   user_account = db.relationship("UserAccount", back_populates = "user", cascade="all, delete-orphan")
+   transaction = db.relationship("Transaction", back_populates = "user")
+```
+
+<b>Attributes</b>
+
+- `id`: Primary key
+- `name`: User's name
+- `email`: Unique, required email address
+- `password_hash`: Required hashed password
+- `created_at`: Date the user was created
+
+<b>Relationships</b>
+
+- `user_account`: One-to-many relationship with UserAccount
+- `transaction`: One-to-many relationship with Transaction
+
+### UserAccount Model (user_account.py)
+
+```python
+class UserAccount(db.Model):
+   # Define the table name
+   __tablename__ = "user_accounts"
+
+   # Define the primary key
+   id = db.Column(db.Integer, primary_key=True)
+
+   # More attributes(columns)
+   role = db.Column(db.String(100), nullable=False)
+   is_admin = db.Column(db.Boolean, default=False)
+
+   # Foreign relation
+   user_id= db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+   account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"), nullable=False)
+
+   user = db.relationship("User", back_populates = "user_account")
+   account = db.relationship("Account", back_populates = "user_account")
+```
+
+<b>Attributes</b>
+
+- `id`: Primary key
+- `role`: Role of the user in the account
+- `is_admin`: Boolean flag for admin status
+- `user_id`: Foreign key referencing User
+- `account_id`: Foreign key referencing Account
+
+<b>Relationships</b>
+
+- `user`: Many-to-one relationship with User
+- `account`: Many-to-one relationship with Account
+
+### Account Model (account.py)
+
+```python
+class Account(db.Model):
+   # Define the table name
+   __tablename__ = "accounts"
+
+   # Define the primary key
+   id = db.Column(db.Integer, primary_key=True)
+
+   # More attributes (columns)
+   name = db.Column(db.String(100), nullable=False)
+   type = db.Column(db.String(100), nullable=False)
+   created_at = db.Column(db.Date)
+
+   # Foreign relation
+   user_account = db.relationship("UserAccount", cascade="all, delete-orphan", back_populates="account")
+   category = db.relationship("Category", cascade="all, delete-orphan", back_populates="account")
+   transaction = db.relationship("Transaction", cascade="all, delete-orphan", back_populates="account")
+```
+
+<b>Attributes</b>
+
+- `id`: Primary key
+- `name`: Account name
+- `type`: Account type (Savings, Checking)
+- `created_at`: Date the account was created
+
+<b>Relationships</b>
+
+- `user_account`: One-to-many relationship with UserAccount
+- `category`: One-to-many relationship with Category
+- `transaction`: One-to-many relationship with Transaction
+
+### Transaction Model (transaction.py)
+
+```python
+class Transaction(db.Model):
+   # Define the table name
+   __tablename__ = "transactions"
+
+   # Define the primary key
+   id = db.Column(db.Integer, primary_key=True)
+
+   # More attributes (columns)
+   type = db.Column(db.String(100), nullable=False)
+   amount = db.Column(db.Numeric(precision=10, scale=2), nullable=False)
+   date = db.Column(db.Date)
+   description = db.Column(db.String(100))
+   created_at = db.Column(db.Date)
+
+   # Foreign relation
+   user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+   account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"), nullable=False)
+   category_id = db.Column(db.Integer, db.ForeignKey("categories.id"))
+
+   user = db.relationship("User", back_populates = "transaction")
+   account = db.relationship("Account", back_populates = "transaction")
+   category = db.relationship("Category", back_populates = "transaction")
+```
+
+<b>Attributes</b>
+
+- `id`: Primary key
+- `type`: Transaction type (Income, Expense)
+- `amount`: Transaction amount
+- `date`: Transaction date
+- `description`: Description of the transaction
+- `created_at`: Date the transaction was created
+- `user_id`: Foreign key referencing User
+- `account_id`: Foreign key referencing Account
+- `category_id`: Foreign key referencing Category
+
+<b>Relationships</b>
+
+- `user`: Many-to-one relationship with User
+- `account`: Many-to-one relationship with Account
+- `category`: Many-to-one relationship with Category
+
+### Category Model (category.py)
+
+```python
+class Category(db.Model):
+   # Define the table name
+   __tablename__ = "categories"
+
+   # Define the primary key
+   id = db.Column(db.Integer, primary_key=True)
+
+   # More attributes(columns)
+   name = db.Column(db.String(100), nullable=False)
+   created_at = db.Column(db.Date)
+
+   # Foreign relation
+   account_id = db.Column(db.Integer, db.ForeignKey("accounts.id"), nullable=False)
+
+   account = db.relationship("Account", back_populates = "category")
+   transaction = db.relationship("Transaction", back_populates = "category")
+```
+
+<b>Attributes</b>
+
+- `id`: Primary key
+- `name`: Category name
+- `created_at`: Date the category was created
+- `account_id`: Foreign key referencing Account
+
+<b>Relationships</b>
+
+- `account`: Many-to-one relationship with Account
+- `transaction`: One-to-many relationship with Transaction
+
+### Key Terms and Concepts
+
+- <b>db.relationship:</b> Used to define relationships between models. This creates foreign key relationships in the database.
+- <b>back_populates:</b> It's a matching argument used with relationship that tells SQLAlchemy which attribute on the related class needs to be updated when the relationship changes.
+- <b>cascade:</b> Specifies how operations should propagate to related objects. For example, all, delete-orphan means that all operations (like delete) should be applied to related objects, and orphaned objects should be deleted.
+
+### Differences from R6 ERD
+
+- <b>Attribute Names:</b> My final implementation uses name, email, password_hash while the ERD uses user_name, user_email.
+- <b>Normalisation:</b> Both the ERD and my implementation maintain normalisation, ensuring no redundancy and proper relationship management.

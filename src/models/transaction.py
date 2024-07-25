@@ -8,7 +8,10 @@ VALID_TYPES = ("Income", "Expense")
 class Transaction(db.Model):
     __tablename__ = "transactions"
 
+    # Define the primary key
     id = db.Column(db.Integer, primary_key=True)
+
+    # More attributes (columns)
     type = db.Column(db.String(100), nullable=False)
     amount = db.Column(db.Numeric(precision=10, scale=2), nullable=False)
     date = db.Column(db.Date)
