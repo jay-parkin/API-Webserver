@@ -94,7 +94,7 @@ This application is run via the terminal and requires the correct Python3 versio
     .env
     ```
 
-    Replace details inside `.flaskenv` with your own
+    Replace details inside with your own
 
     ```bash
     DATABASE_URL="postgresql+psycopg2://{your_username}:{your_password}@localhost:5432/income_expense_tracker_db"
