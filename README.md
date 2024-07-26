@@ -24,9 +24,8 @@ This application is run via the terminal and requires the correct Python3 versio
 
 - Install WSL via [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
 
-1.  Open a WSL terminal
-2.  Open a Terminal
-3.  Clone the GitHub repository</br>
+1.  Open a Terminal
+2.  Clone the GitHub repository</br>
     via SSH
 
     ```bash
@@ -39,13 +38,13 @@ This application is run via the terminal and requires the correct Python3 versio
     git clone https://github.com/jay-parkin/API-Webserver.git
     ```
 
-4.  Navigate to the `/src` directory in the cloned repository
+3.  Navigate to the `/src` directory in the cloned repository
 
     ```bash
     cd API-WebServer/src
     ```
 
-5.  Create a virtual environment `.venv` and activate it
+4.  Create a virtual environment `.venv` and activate it
 
     ```bash
     python3 -m venv .venv
@@ -55,13 +54,13 @@ This application is run via the terminal and requires the correct Python3 versio
     source .venv/bin/activate
     ```
 
-6.  Install the required dependencies
+5.  Install the required dependencies
 
     ```bash
     pip install -r requirements.txt
     ```
 
-7.  PostgreSQL
+6.  PostgreSQL
 
     Start PostgreSQL
 
@@ -87,7 +86,7 @@ This application is run via the terminal and requires the correct Python3 versio
     GRANT ALL PRIVILEGES ON DATABASE income_expense_tracker_db TO {your_username};
     ```
 
-8.  Edit the `.env.sample` file provided inside `/src`
+7.  Edit the `.env.sample` file provided inside `/src`
 
     Rename
 
@@ -102,7 +101,7 @@ This application is run via the terminal and requires the correct Python3 versio
     JWT_SECRET_KEY="your_jwt_secret_key"
     ```
 
-9.  Initialise the DB
+8.  Initialise the DB
 
     ```bash
     flask db drop
@@ -110,7 +109,7 @@ This application is run via the terminal and requires the correct Python3 versio
     flask db seed
     ```
 
-10. Run the Server for the API
+9.  Run the Server for the API
 
     ```bash
     flask run
