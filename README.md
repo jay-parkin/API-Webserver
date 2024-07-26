@@ -1,5 +1,10 @@
 # API Webserver: Income & Expense Tracker
 
+## Source Control
+
+- GitHub Repository - https://github.com/jay-parkin/API-Webserver
+- Clone Repository - `git clone https://github.com/jay-parkin/API-Webserver.git`
+
 ## R1: Problem Statement
 
 > Explain the problem that this app will solve, and explain how this app solves or addresses the problem.
@@ -1139,7 +1144,8 @@ Authorisation: `Bearer <jwt_token>`
 ```
 
 <b>Explanation</b>
-This endpoint allows the user to join an existing account as a viewer.
+
+- This endpoint allows the user to join an existing account as a viewer.
 
 - <b>Process</b>
   1.  Retrieve the current user ID from the JWT token.
@@ -1193,7 +1199,7 @@ This endpoint allows the user to join an existing account as a viewer.
 
 <b>Explanation</b>
 
-This endpoint allows an admin to update the account’s name and type.
+- This endpoint allows an admin to update the account’s name and type.
 
 - <b>Process</b>
 
