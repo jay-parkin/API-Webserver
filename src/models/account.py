@@ -3,9 +3,7 @@ from init import db, ma
 from marshmallow import fields
 from marshmallow.validate import Length, And, Regexp, OneOf
 
-VALID_TYPES = ("Regular Savings", "Personal Checking", "Business Checking", "Joint Account", 
-               "Investment", "Retirement", "Credit", "Emergency Fund", "Health Savings", 
-               "Education Savings", "Vacation Fund")
+VALID_TYPES = ("Savings", "Checking")
 
 
 class Account(db.Model):

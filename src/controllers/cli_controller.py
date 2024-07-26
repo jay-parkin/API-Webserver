@@ -27,32 +27,31 @@ def drop_tables():
 # Cli command used - flask db seed
 @db_commands.cli.command("seed")
 def seed_tables():
-
     # List of user instances
     users = [
         User(
-            name = "Admin",
-            email = "admin@email.com",
-            password_hash = bcrypt.generate_password_hash("123456AA").decode("utf-8"),
-            created_at = date.today()
+            name="Admin",
+            email="admin@example.com",
+            password_hash=bcrypt.generate_password_hash("AdminPass123").decode("utf-8"),
+            created_at=date.today()
         ),
         User(
-            name = "User 1",
-            email = "user1@email.com",
-            password_hash = bcrypt.generate_password_hash("123456AA").decode("utf-8"),
-            created_at = date.today()
+            name="Alice",
+            email="alice@example.com",
+            password_hash=bcrypt.generate_password_hash("AlicePass123").decode("utf-8"),
+            created_at=date.today()
         ),
         User(
-            name = "User 2",
-            email = "user2@email.com",
-            password_hash = bcrypt.generate_password_hash("123456AA").decode("utf-8"),
-            created_at = date.today()
+            name="Bob",
+            email="bob@example.com",
+            password_hash=bcrypt.generate_password_hash("BobPass123").decode("utf-8"),
+            created_at=date.today()
         ),
         User(
-            name = "User 3",
-            email = "user3@email.com",
-            password_hash = bcrypt.generate_password_hash("123456AA").decode("utf-8"),
-            created_at = date.today()
+            name="Charlie",
+            email="charlie@example.com",
+            password_hash=bcrypt.generate_password_hash("CharliePass123").decode("utf-8"),
+            created_at=date.today()
         )
     ]
 
@@ -60,27 +59,24 @@ def seed_tables():
 
     accounts = [
         Account(
-            name = "Account 1",
-            type = "Credit",
-            created_at = date.today()
+            name="Personal Savings",
+            type="Savings",
+            created_at=date.today()
         ),
-
         Account(
-            name = "Account 2",
-            type = "Vaction Fund",
-            created_at = date.today()
+            name="Vacation Fund",
+            type="Savings",
+            created_at=date.today()
         ),
-
         Account(
-            name = "Account 3",
-            type = "Regular Savings",
-            created_at = date.today()
+            name="Business Checking",
+            type="Checking",
+            created_at=date.today()
         ),
-
         Account(
-            name = "Account 4",
-            type = "Personal Checking",
-            created_at = date.today()
+            name="Emergency Fund",
+            type="Savings",
+            created_at=date.today()
         )
     ]
 
@@ -88,102 +84,135 @@ def seed_tables():
 
     user_accounts = [
         UserAccount(
-            role = "Admin",
-            user = users[0],
-            account = accounts[1],
-            is_admin = True
+            role="Admin",
+            user=users[0],
+            account=accounts[0],
+            is_admin=True
         ),
         UserAccount(
-            role = "Viewer",
-            user = users[1],
-            account = accounts[1]
+            role="Viewer",
+            user=users[1],
+            account=accounts[1]
         ),
         UserAccount(
-            role = "Contributor",
-            user = users[3],
-            account = accounts[1]
+            role="Contributor",
+            user=users[2],
+            account=accounts[2]
         ),
+        UserAccount(
+            role="Contributor",
+            user=users[3],
+            account=accounts[3]
+        )
     ]
 
     db.session.add_all(user_accounts)
 
-    categories = [ 
+    categories = [
         Category(
-            name = "First Collection",
-            created_at = date.today(),
-            account = accounts[2]
+            name="Groceries",
+            created_at=date.today(),
+            account=accounts[0]
         ),
         Category(
-            name = "Second Collection",
-            created_at = date.today(),
-            account = accounts[3]
+            name="Travel",
+            created_at=date.today(),
+            account=accounts[1]
         ),
         Category(
-            name = "Third Collection",
-            created_at = date.today(),
-            account = accounts[1]
+            name="Office Supplies",
+            created_at=date.today(),
+            account=accounts[2]
         ),
+        Category(
+            name="Healthcare",
+            created_at=date.today(),
+            account=accounts[3]
+        )
     ]
 
     db.session.add_all(categories)
-       
+
     transactions = [
         Transaction(
-            type = "Income",
-            amount = "1200.00",
-            date = "2024-07-13",
-            description = "Wage or Salary",
-            created_at = date.today(),
-            account = accounts[2],
-            category = categories[1],
-            user = users[0]
+            type="Income",
+            amount="2500.00",
+            date="2024-07-01",
+            description="Salary",
+            created_at=date.today(),
+            account=accounts[0],
+            category=None,
+            user=users[0]
         ),
         Transaction(
-            type = "Expense",
-            amount = "232.00",
-            date = "2024-07-02",
-            description = "New Bed",
-            created_at = date.today(),
-            account = accounts[3],
-            user = users[0]
+            type="Expense",
+            amount="150.00",
+            date="2024-07-05",
+            description="Grocery Shopping",
+            created_at=date.today(),
+            account=accounts[0],
+            category=categories[0],
+            user=users[0]
         ),
         Transaction(
-            type = "Income",
-            amount = "357.00",
-            date = "2024-07-15",
-            description = "Yard work",
-            created_at = date.today(),
-            account = accounts[1],
-            user = users[1]
+            type="Income",
+            amount="500.00",
+            date="2024-07-10",
+            description="Freelance Work",
+            created_at=date.today(),
+            account=accounts[2],
+            category=None,
+            user=users[2]
         ),
         Transaction(
-            type = "Income",
-            amount = "455.00",
-            date = "2024-03-25",
-            description = "Investment",
-            created_at = date.today(),
-            account = accounts[2],
-            category = categories[1],
-            user = users[0]
+            type="Expense",
+            amount="200.00",
+            date="2024-07-12",
+            description="Flight Tickets",
+            created_at=date.today(),
+            account=accounts[1],
+            category=categories[1],
+            user=users[1]
         ),
         Transaction(
-            type = "Expense",
-            amount = "156.00",
-            date = "2024-05-30",
-            description = "Shopping",
-            created_at = date.today(),
-            account = accounts[2],
-            user = users[0]
+            type="Income",
+            amount="1000.00",
+            date="2024-07-15",
+            description="Bonus",
+            created_at=date.today(),
+            account=accounts[0],
+            category=None,
+            user=users[0]
         ),
         Transaction(
-            type = "Income",
-            amount = "500.00",
-            date = "2024-07-15",
-            description = "Sold Tredmill",
-            created_at = date.today(),
-            account = accounts[1],
-            category = categories[0],
-            user = users[3]
+            type="Expense",
+            amount="75.00",
+            date="2024-07-18",
+            description="Office Supplies",
+            created_at=date.today(),
+            account=accounts[2],
+            category=categories[2],
+            user=users[2]
+        ),
+        Transaction(
+            type="Expense",
+            amount="300.00",
+            date="2024-07-20",
+            description="Doctor Visit",
+            created_at=date.today(),
+            account=accounts[3],
+            category=categories[3],
+            user=users[3]
+        ),
+        Transaction(
+            type="Income",
+            amount="600.00",
+            date="2024-07-25",
+            description="Sold Bicycle",
+            created_at=date.today(),
+            account=accounts[1],
+            category=None,
+            user=users[1]
         )
     ]
 

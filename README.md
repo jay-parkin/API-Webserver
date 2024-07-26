@@ -227,6 +227,9 @@ Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2
 <p align="center">
 <img src="docs/planning/trello/planning_stage_18.JPG">
 <img src="docs/planning/trello/planning_stage_19.JPG">
+<img src="docs/planning/trello/planning_stage_20.JPG">
+<img src="docs/planning/trello/final_stage.JPG">
+
 </p>
 </details>
 
