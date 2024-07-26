@@ -5,6 +5,123 @@
 - GitHub Repository - https://github.com/jay-parkin/API-Webserver
 - Clone Repository - `git clone https://github.com/jay-parkin/API-Webserver.git`
 
+## Getting Started
+
+### Prerequisties
+
+- Python 3.10.12 or [higher](https://www.python.org/downloads/)
+- PostgreSQL - [PostgreSQl Download](https://www.postgresql.org/download/)
+
+### Installation
+
+Follow the instructions below to install the Database and get the API running.<br>
+This application is run via the terminal and requires the correct Python3 version and project folder structure.<br>
+<b>Please copy the follow instructions(where applicable) and paste directly into your linux terminal.</b>
+
+<details>
+<summary><b>Unix based Systems - Linux, macOS & Windows</b></summary>
+<i>For Windows installation: Proceed with the following step prior.</i>
+
+- Install WSL via [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install)
+
+1.  Open a WSL terminal
+2.  Open a Terminal
+3.  Clone the GitHub repository</br>
+    via SSH
+
+    ```bash
+    git clone git@github.com:jay-parkin/API-Webserver.git
+    ```
+
+    via HTTPS
+
+    ```bash
+    git clone https://github.com/jay-parkin/API-Webserver.git
+    ```
+
+4.  Navigate to the `/src` directory in the cloned repository
+
+    ```bash
+    cd API-WebServer/src
+    ```
+
+5.  Create a virtual environment `.venv` and activate it
+
+    ```bash
+    python3 -m venv .venv
+    ```
+
+    ```bash
+    source .venv/bin/activate
+    ```
+
+6.  Install the required dependencies
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+7.  PostgreSQL
+
+    Start PostgreSQL
+
+    ```bash
+    psql
+    ```
+
+    <i>This will require you to have a psql user</i>
+
+    Create a new DB
+
+    ```sql
+    CREATE DATABASE income_expense_tracker_db;
+    ```
+
+    ```sql
+    CREATE ROLE {username} WITH PASSWORD {your_password};
+    ```
+
+    Grant Privileges
+
+    ```sql
+    GRANT ALL PRIVILEGES ON DATABASE income_expense_tracker_db TO {your_username};
+    ```
+
+8.  Edit the `.env.sample` file provided inside `/src`
+
+    Rename
+
+    ```bash
+    .env
+    ```
+
+    Replace details with your own
+
+    ```bash
+    DATABASE_URL="postgresql+psycopg2://{your_username}:{your_password}@localhost:5432/income_expense_tracker_db"
+    JWT_SECRET_KEY="your_jwt_secret_key"
+    ```
+
+9.  Initialise the DB
+
+    ```bash
+    flask db drop
+    flask db create
+    flask db seed
+    ```
+
+10. Run the Server for the API
+
+    ```bash
+    flask run
+    ```
+
+You will see ` Running on http://127.0.0.1:5000` once everything is setup correctly
+
+<i>Note: In most modern setups where Python 2 is no longer in use, pip should work for Python 3.x as well. However, if you're unsure or have both Python 2 and 3 installed, using pip3 ensures that you're installing packages for Python 3.x.</i>
+
+</details>
+
 ## R1: Problem Statement
 
 > Explain the problem that this app will solve, and explain how this app solves or addresses the problem.
@@ -59,72 +176,72 @@ Trello allows me to organise tasks visually and track their status through vario
 
 1. <b>Task Allocation</b>
 
-   - <b>Task Creation:</b> I create tasks as individual Trello cards, each representing a specific task that needs completion.
-   - <b>Details and Deadlines:</b> Each card includes a detailed description, relevant attachments and checklists. This keeps me organised and ensures I have all necessary information to complete the task.
+- <b>Task Creation:</b> I create tasks as individual Trello cards, each representing a specific task that needs completion.
+- <b>Details and Deadlines:</b> Each card includes a detailed description, relevant attachments and checklists. This keeps me organised and ensures I have all necessary information to complete the task.
 
 2. <b>Tracking Progress</b>
 
-   - <b>Backlog:</b> This list contains all tasks that need to be done eventually but are not yet prioritised. It's future tasks that I can move to "To Do" when ready to start working on them.
+- <b>Backlog:</b> This list contains all tasks that need to be done eventually but are not yet prioritised. It's future tasks that I can move to "To Do" when ready to start working on them.
 
-   - <b>README.md:</b> This will list all of the updates/changes I need to make to the readme.md file of this project. Card from here will be moved into 'Doing' once started.
+- <b>README.md:</b> This will list all of the updates/changes I need to make to the readme.md file of this project. Card from here will be moved into 'Doing' once started.
 
-   - <b>API Routes/Endpoints:</b> Basing this list off work that needs to be done in Insomnia.
+- <b>API Routes/Endpoints:</b> Basing this list off work that needs to be done in Insomnia.
 
-   - <b>To Do:</b> This list includes all tasks that need starting. New tasks are added here, giving a clear view of what's next.
+- <b>To Do:</b> This list includes all tasks that need starting. New tasks are added here, giving a clear view of what's next.
 
-   - <b>Doing:</b> Once I start working on a task, I move its card from "To Do" to "Doing." This helps me focus on current tasks and manage my workflow efficiently.
+- <b>Doing:</b> Once I start working on a task, I move its card from "To Do" to "Doing." This helps me focus on current tasks and manage my workflow efficiently.
 
-   - <b>Done:</b> Completed tasks go into the "Done" list, providing a sense of accomplishment and a clear record of finished work.
+- <b>Done:</b> Completed tasks go into the "Done" list, providing a sense of accomplishment and a clear record of finished work.
 
-   - <b>Stuck:</b> If a task encounters an issue or can't proceed, it goes to the "Stuck" list. This helps me quickly spot and resolve bottlenecks.
+- <b>Stuck:</b> If a task encounters an issue or can't proceed, it goes to the "Stuck" list. This helps me quickly spot and resolve bottlenecks.
 
 3. <b>Communication and Updates</b>
 
-   - <b>Notes:</b> I add notes to each card for updates, recording important information, or documenting task-related issues.
+- <b>Notes:</b> I add notes to each card for updates, recording important information, or documenting task-related issues.
 
-   - <b>Notifications:</b> Trello notifies me about approaching deadlines and any updates or changes to cards, helping me stay informed and manage time effectively.
+- <b>Notifications:</b> Trello notifies me about approaching deadlines and any updates or changes to cards, helping me stay informed and manage time effectively.
 
 4. <b>Review</b>
 
-   - <b>Regular Review:</b> I regularly review task statuses and project progress to stay on track and adjust my workflow as needed.
+- <b>Regular Review:</b> I regularly review task statuses and project progress to stay on track and adjust my workflow as needed.
 
-   - <b>Board Review:</b> Periodically, I review the Trello board to ensure tasks move smoothly. This early identification of delays or issues allows prompt resolution.
+- <b>Board Review:</b> Periodically, I review the Trello board to ensure tasks move smoothly. This early identification of delays or issues allows prompt resolution.
 
 <br>
 
 Live link: [API Webserver: Income & Expense Tracker](https://trello.com/b/Xe5Zb2LJ)
 
 <details>
-   <summary>Trello Planning: Screenshots</summary>
-   <p align="center"><i>First Week</i></p>
+<summary>Trello Planning: Screenshots</summary>
+<p align="center"><i>First Week</i></p>
 <p align="center">
-   <img src="docs/planning/trello/planning_stage_01.JPG">
-   <img src="docs/planning/trello/planning_stage_02.JPG">
+<img src="docs/planning/trello/planning_stage_01.JPG">
+<img src="docs/planning/trello/planning_stage_02.JPG">
 </p>
 <p align="center"><i>Second Week</i></p>
 <p align="center">
-   <img src="docs/planning/trello/planning_stage_15.JPG">
-   <img src="docs/planning/trello/planning_stage_16.JPG">
-   <img src="docs/planning/trello/planning_stage_17.JPG">
+<img src="docs/planning/trello/planning_stage_15.JPG">
+<img src="docs/planning/trello/planning_stage_16.JPG">
+<img src="docs/planning/trello/planning_stage_17.JPG">
 </p>
 <p align="center"><i>Third Week</i></p>
 <p align="center">
-   <img src="docs/planning/trello/planning_stage_18.JPG">
-   <img src="docs/planning/trello/planning_stage_19.JPG">
+<img src="docs/planning/trello/planning_stage_18.JPG">
+<img src="docs/planning/trello/planning_stage_19.JPG">
 </p>
 </details>
 
 <details>
-   <summary>Card Planning: Screenshots</summary>
+<summary>Card Planning: Screenshots</summary>
 <p align="center">
-   <img src="docs/planning/trello/cards/card_r01.JPG">
-   <img src="docs/planning/trello/cards/card_r02.JPG">
-   <img src="docs/planning/trello/cards/card_r03.JPG">
-   <img src="docs/planning/trello/cards/card_r04.JPG">
-   <img src="docs/planning/trello/cards/card_r06.JPG">
-   <img src="docs/planning/trello/cards/card_r05.JPG">
-   <img src="docs/planning/trello/cards/card_r07.JPG">
-   <img src="docs/planning/trello/cards/card_r08.JPG">
+<img src="docs/planning/trello/cards/card_r01.JPG">
+<img src="docs/planning/trello/cards/card_r02.JPG">
+<img src="docs/planning/trello/cards/card_r03.JPG">
+<img src="docs/planning/trello/cards/card_r04.JPG">
+<img src="docs/planning/trello/cards/card_r06.JPG">
+<img src="docs/planning/trello/cards/card_r05.JPG">
+<img src="docs/planning/trello/cards/card_r07.JPG">
+<img src="docs/planning/trello/cards/card_r08.JPG">
 </p>
 </details>
 
