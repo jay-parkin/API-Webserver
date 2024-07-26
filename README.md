@@ -2042,3 +2042,88 @@ Required Body Data:
 
 1. Fetch the category from the database using category_id.
 2. Verify the category exists.
+
+<br>
+
+## Auth Decorator
+
+An `Auth Decorator` is used in all endpoints that need to authorise and authenicate the user and the user's role before proceeding with the resources.
+
+<h3>`authorise_user` Decorator</h3>
+<b>The authorise_user decorator is designed to</b>
+
+1. Get the current user ID from the JWT token.
+2. Retrieve a specific resource (like an account) using the resource model and parameter.
+3. Check if the resource exists.
+4. Determine the account ID related to the resource.
+5. Check if the current user is associated with the account.
+6. Verify if the user has the required role to perform the action.
+
+<details>
+
+```python
+def authorise_user(resource_model, resource_param, attribute_name=None, role_required=None):
+    def decorator(fn):
+        @functools.wraps(fn)
+        def wrapper(*args, **kwargs):
+            # Step 1: Get the current user ID from the JWT token
+            current_user_id = get_jwt_identity()
+
+            # Step 2: Get the resource ID from the route parameters
+            resource_id = kwargs.get(resource_param)
+
+            # Step 3: Fetch the resource (e.g., Account, Category)
+            stmt = db.select(resource_model).filter_by(id=resource_id)
+            resource = db.session.scalar(stmt)
+
+            if not resource:
+                return {"error": f"{resource_model.__name__} {resource_id} not found"}, 404
+
+            # Step 4: Dynamically determine the account ID for the resource
+            account_id = getattr(resource, attribute_name, None)
+            if account_id is None:
+                return {"error": "Unable to determine account ID from resource"}, 400
+
+            # Step 5: Fetch user account
+            user_account = db.session.query(UserAccount).filter_by(
+                user_id=current_user_id, account_id=account_id).first()
+
+            if not user_account:
+                return {"error": "You are not authorised to perform this action for this account"}, 401
+
+            # Step 6: Check if the user's role is authorised
+            if role_required and user_account.role not in role_required:
+                return {"error": f"Only {', '.join(role_required)} are authorised to perform this action"}, 401
+
+            return fn(*args, **kwargs)
+        return wrapper
+    return decorator
+
+```
+
+</details>
+
+<br>
+
+<b>Applying the authorise_user Decorator</b>
+
+This applies the `authorise_user` decorator to the route.
+
+- `resource_model=Account`: The model to use for fetching the resource.
+- `resource_param="account_id"`: The route parameter that contains the resource ID.
+- `attribute_name="id"`: The attribute to fetch the account ID from the resource.
+- `role_required=["Admin", "Contributor", "Viewer"]`: The roles that are allowed to access this route.
+
+<details>
+<summary>Decorator used in the Accounts Endpoint</summary>
+
+```python
+@authorise_user(
+    resource_model=Account,
+    resource_param="account_id",
+    attribute_name="id",
+    role_required=["Admin", "Contributor", "Viewer"]
+)
+```
+
+</details>
