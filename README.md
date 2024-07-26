@@ -94,7 +94,7 @@ This application is run via the terminal and requires the correct Python3 versio
     .env
     ```
 
-    Replace details with your own
+    Replace details inside `.flaskenv` with your own
 
     ```bash
     DATABASE_URL="postgresql+psycopg2://{your_username}:{your_password}@localhost:5432/income_expense_tracker_db"
@@ -2101,7 +2101,6 @@ def authorise_user(resource_model, resource_param, attribute_name=None, role_req
             return fn(*args, **kwargs)
         return wrapper
     return decorator
-
 ```
 
 </details>
